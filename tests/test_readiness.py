@@ -138,6 +138,19 @@ def test_load_build_spec_rejects_unsupported_extension(tmp_path: Path) -> None:
         load_build_spec(source)
 
 
+def test_cmd_init_rejects_invalid_spec_before_project_init(tmp_path: Path) -> None:
+    from pact.cli import cmd_init
+
+    source = tmp_path / "spec.md"
+    source.write_text("# Build API")
+    project_dir = tmp_path / "project"
+
+    with pytest.raises(SystemExit, match="Unsupported build spec format .md"):
+        cmd_init(argparse.Namespace(project_dir=str(project_dir), budget=10.0, spec=str(source)))
+
+    assert not project_dir.exists()
+
+
 def test_load_build_spec_rejects_unknown_version(tmp_path: Path) -> None:
     source = tmp_path / "spec.yaml"
     source.write_text("version: '2'\ntask: Build API")

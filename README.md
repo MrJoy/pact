@@ -80,6 +80,10 @@ For a complete plan-first agent workflow, load the cross-agent skill at
 `skills/pact-engineer/SKILL.md`. The repository is also a Claude Code plugin:
 `claude --plugin-dir ./pact`. The plugin includes the Pact engineering workflow
 and a Simulacrum skill; Codex can invoke the same review path through Pact.
+Pact also exposes constrained single-call agent lanes for trusted automation:
+`pact agent spec-author` may write only under the component-scoped Pact project,
+and `pact agent repair --source-root <dir>` may write only under explicit source
+roots after budget and path-policy validation.
 
 For a production-readiness build, scaffold the optional artifact pack first:
 
@@ -95,6 +99,30 @@ mapping, threat model, architecture laws, preflight, live-validation, N/A, and
 done-gate artifacts under `production/`; it does not change ordinary Pact runs.
 `pact production validate` blocks until derived evidence, external evidence,
 and justified N/A records are all present and non-placeholder.
+
+### Production-ready minimalism
+
+Pact treats simplicity as an optional review lens, not as a replacement for the
+production gate. Before adding code, dependencies, or layers, ask:
+
+1. Does this need to exist at all?
+2. Does the standard library, native platform, or an installed dependency
+   already solve it?
+3. Is the new abstraction justified by a real requirement, measured constraint,
+   or recovery/observability need?
+4. If this is an intentional shortcut, what is its ceiling, what signal says it
+   is no longer enough, and what is the upgrade path?
+
+Lean review may remove boilerplate, wrapper-only layers, speculative
+configuration, hand-rolled stdlib behavior, and unnecessary dependencies. It
+may not remove trust-boundary validation, security controls, accessibility,
+observability, rollback, migrations, auditability, live validation, or
+evidence-backed done gates. Production-ready minimalism means an operator can
+answer "what broke, why, and how do I roll back?" without deploying new code.
+For each layer, ask whether removing it makes a trust boundary unenforceable,
+a failure mode unobservable, rollback/evidence gathering impossible, or a hard
+invariant dependent on manual discipline. Yes to any means load-bearing; no to
+all four means ceremony.
 
 Pact now starts every new project with a typed readiness profile in
 `pact.yaml` and an AI-editable `build_spec.yaml`. The interview phase confirms
@@ -273,7 +301,7 @@ Either, neither, or both. Defaults: both off (sequential, single-attempt).
 | `pact build <project> <id>` | Build/rebuild a specific component |
 | `pact validate <project>` | Re-run contract validation |
 | `pact audit <project>` | Spec-compliance audit |
-| `pact certify <project>` | Run certification (all tests, tamper-evident proof) |
+| `pact certify <project>` | Run certification for a Pact-managed project |
 | `pact audit-init <project>` | Initialize audit repo separation |
 | `pact sync <project>` | Sync visible tests from audit repo |
 | `pact sentinel status` | Show Sentinel/Arbiter connection config |
@@ -287,9 +315,11 @@ Either, neither, or both. Defaults: both off (sequential, single-attempt).
 | `pact production init <project>` | Scaffold optional production-readiness artifacts |
 | `pact production status <project>` | Show production-readiness status without blocking |
 | `pact production fingerprint <project>` | Print the current source fingerprint for production evidence |
-| `pact production validate <project>` | Validate the production gate and exit non-zero on blockers |
+| `pact production validate <project>` | Validate a Pact-managed production gate and exit non-zero on blockers |
 | `pact spec apply <project> <file>` | Apply an AI-authored JSON/YAML build spec |
 | `pact spec show <file>` | Normalize and inspect an AI-authored build spec |
+| `pact agent spec-author` | Run one constrained spec-author agent |
+| `pact agent repair --source-root <dir>` | Run one constrained repair agent |
 | `pact adopt <project>` | Adopt existing codebase under pact governance |
 | `pact assess <directory>` | Architectural assessment — shallow modules, hub dependencies, coupling |
 | `pact mcp-server` | Run MCP server (stdio transport) |
@@ -542,6 +572,12 @@ or done claim. Requested tool failures and Advocate critical/high findings make
 the command exit non-zero. Simulacrum completion is not machine-readable
 approval; the active agent must adjudicate its response, fix the work, and
 rerun the gate.
+
+Run a lean review as a separate pass from correctness and security review. The
+lean pass asks what can be deleted, replaced with stdlib/native behavior, or
+collapsed without weakening the recovery, audit, safety, or live-validation
+surface. Use `skills/pact-engineer/references/lean-review.md` as the checklist;
+do not treat a shorter diff as evidence that the system is safer.
 
 Pact ships Simulacrum's MIT-licensed runtime and annotated corpus. It does not
 search user home directories for another installation. Install review support

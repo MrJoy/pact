@@ -8,8 +8,8 @@ Contract-first multi-agent software engineering. Decomposition produces contract
 cd ~/Code/pact
 python3 -m pytest tests/ -v        # Run all tests
 pact init <project-dir>            # Initialize project
-pact init <project-dir> --spec <file> # Initialize from AI-authored build spec
-pact spec apply <project-dir> <file> # Apply AI-authored build spec
+pact init <project-dir> --spec <file> # Initialize from AI-authored JSON/YAML build spec
+pact spec apply <project-dir> <file> # Apply AI-authored JSON/YAML build spec
 pact status <project-dir>          # Show state
 pact components <project-dir>      # List components
 pact build <project-dir> <id>      # Build specific component
@@ -19,11 +19,13 @@ pact analyze <project-dir>         # Cross-artifact analysis
 pact checklist <project-dir>       # Requirements quality checklist
 pact production init <project-dir> # Scaffold optional production-readiness pack
 pact production fingerprint <project-dir> # Print the source fingerprint for evidence
-pact production validate <project-dir> # Validate production-readiness gate
+pact production validate <project-dir> # Validate production-readiness gate for a Pact-managed project
 pact assess <directory>            # Architectural assessment (any codebase)
 pact export-tasks <project-dir>    # Export TASKS.md
 pact handoff <project-dir> <id>    # Render/validate handoff brief
 pact review <target> --claim <text> # Advocate + Simulacrum review
+pact agent spec-author              # Run one constrained spec-author agent
+pact agent repair --source-root <dir> # Run one constrained repair agent
 pact directive <project-dir> <json> # Send structured directive to daemon
 pact mcp-server [--project-dir <dir>] # Run MCP server (stdio)
 pact-mcp                              # MCP server entry point
@@ -84,6 +86,28 @@ The manifest fingerprint and bounded validation age prevent stale evidence from
 passing after source or Pact artifact changes, or after the evidence ages out.
 This is a deployment gate, not a runtime substitute; `live_validation.yaml`
 must still prove the running environment matches the evidence being claimed.
+
+### Production-Ready Minimalism
+
+Pact supports a lean/simplification review lens, but it is not a readiness
+profile and it is never a substitute for the production artifact pack. Before
+adding code, dependencies, or layers, stop at the first rung that holds:
+
+1. Does this need to exist at all?
+2. Does stdlib solve it?
+3. Does a native platform feature solve it?
+4. Does an already-installed dependency solve it?
+5. Can the minimum correct behavior be expressed more directly?
+6. Only then add the minimum custom code.
+
+Every intentional shortcut must name its ceiling, the trigger that makes the
+ceiling real, and the upgrade path. Lean review may delete boilerplate,
+wrapper-only layers, speculative configuration, and unnecessary dependencies.
+It may not delete trust-boundary validation, data-loss protection, security,
+accessibility, observability, rollback, migration safety, auditability, live
+validation, or evidence-backed done gates. The operational test is simple:
+operators must be able to answer what broke, why, and how to roll back without
+deploying new code.
 
 ### Readiness Profile
 

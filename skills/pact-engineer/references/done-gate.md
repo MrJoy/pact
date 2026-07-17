@@ -18,6 +18,21 @@ specific reason.
 - Logging, events, metrics, and alerts exist where the system boundary warrants
   them.
 
+## Production-Ready Minimalism
+
+- Every new dependency, abstraction, queue, wrapper, config layer, or service
+  has a reason tied to a real requirement, measured constraint, or
+  recovery/observability need.
+- Before adding custom code, the review checked whether the work can be
+  skipped, handled by stdlib, handled by the platform, or handled by an
+  already-installed dependency.
+- Intentional shortcuts name their ceiling, trigger, and upgrade path.
+- Lean review did not delete trust boundaries, data-loss protection, security,
+  accessibility, observability, rollback, migration safety, auditability,
+  live validation, or evidence-backed gates.
+- Operators can answer what broke, why, and how to roll back without deploying
+  new code.
+
 ## Verification
 
 - Focused tests pass.

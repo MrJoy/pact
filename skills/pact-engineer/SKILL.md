@@ -48,7 +48,10 @@ pact handoff "$PACT_DIR" "$COMPONENT_ID" --validate --max-tokens 2000
       Pact plan-only.
     - Resume only after the contract and implementation agree.
 11. Run repository tests, type checks, lint, `pact validate`, and `pact audit`
-    where applicable.
+    where applicable. Then run the lean review checklist in
+    [references/lean-review.md](references/lean-review.md): remove ceremony
+    that does not improve correctness, recovery, observability, or evidence,
+    but do not delete safety or production-readiness controls.
 12. Run post-implementation review:
 
 ```bash
@@ -71,6 +74,31 @@ blocking. Fix the work, not merely the wording, then rerun review.
 - After three genuine failed approaches or material scope expansion, stop,
   document the invalid assumption, and choose a simpler contract-satisfying
   approach or report the blocker.
+
+## Production-Ready Minimalism
+
+Use the lean lens as a separate review pass, not as a replacement for
+correctness, security, or production evidence.
+
+- Before adding code, stop at the first rung that holds: does this need to
+  exist, does stdlib solve it, does the platform solve it, does an installed
+  dependency solve it, can the minimum correct behavior be more direct?
+- New dependencies, abstractions, queues, brokers, services, wrappers, config
+  layers, and extension points need a reason tied to a real requirement,
+  measured constraint, or recovery/observability need.
+- Intentional shortcuts must state the ceiling, the trigger that makes the
+  ceiling real, and the upgrade path.
+- For every layer, ask whether removing it makes a trust boundary
+  unenforceable, a failure mode unobservable, or rollback/evidence gathering
+  impossible, or turns a hard invariant into a manual discipline requirement.
+  Yes to any means load-bearing; no to all four means ceremony.
+- Lean review may remove boilerplate, wrapper-only layers, speculative config,
+  hand-rolled stdlib behavior, and unused flexibility.
+- Lean review may not remove trust-boundary validation, error handling that
+  prevents data loss, security, accessibility, observability, rollback,
+  migration safety, auditability, live validation, or evidence-backed gates.
+- The operational test: an operator must be able to answer what broke, why,
+  and how to roll back without deploying new code.
 
 ## Review Tool Behavior
 

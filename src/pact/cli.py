@@ -67,7 +67,7 @@ def main() -> None:
     p_init = subparsers.add_parser("init", help="Initialize a new project")
     p_init.add_argument("project_dir", help="Project directory path")
     p_init.add_argument("--budget", type=float, default=10.00, help="Budget cap in dollars")
-    p_init.add_argument("--spec", default=None, metavar="FILE", help="AI-authored JSON/YAML build spec")
+    p_init.add_argument("--spec", default=None, metavar="FILE", help="AI-authored .json/.yaml/.yml build spec")
 
     # status
     p_status = subparsers.add_parser("status", help="Show project or component status")
@@ -262,7 +262,10 @@ def main() -> None:
     p_production_status = production_sub.add_parser("status", help="Show production-readiness status")
     p_production_status.add_argument("project_dir", help="Project directory path")
     p_production_status.add_argument("--json", action="store_true", dest="json_output", help="Output as JSON")
-    p_production_validate = production_sub.add_parser("validate", help="Validate production-readiness gate")
+    p_production_validate = production_sub.add_parser(
+        "validate",
+        help="Validate a pact-managed project's production-readiness gate",
+    )
     p_production_validate.add_argument("project_dir", help="Project directory path")
     p_production_validate.add_argument("--json", action="store_true", dest="json_output", help="Output as JSON")
     p_production_fingerprint = production_sub.add_parser(
@@ -392,7 +395,10 @@ def main() -> None:
     p_sync = subparsers.add_parser("sync", help="Sync visible tests from audit repo to code repo")
     p_sync.add_argument("project_dir", help="Project directory path (code repo)")
 
-    p_certify = subparsers.add_parser("certify", help="Run certification (all tests against code repo)")
+    p_certify = subparsers.add_parser(
+        "certify",
+        help="Run certification for a pact-managed project",
+    )
     p_certify.add_argument("project_dir", help="Project directory path")
     p_certify.add_argument("--json", action="store_true", dest="json_output", help="Output as JSON")
     p_certify.add_argument("--verify-only", action="store_true", help="Only verify existing certification")
@@ -726,13 +732,16 @@ def cmd_init(args: argparse.Namespace) -> None:
     from pact.archive import list_archived_sessions
     from pact.readiness import BuildSpecError, apply_build_spec, load_build_spec
 
-    project = ProjectManager(args.project_dir)
-    project.init(budget=args.budget)
+    spec = None
     if getattr(args, "spec", None):
         try:
             spec = load_build_spec(args.spec)
         except BuildSpecError as exc:
             raise SystemExit(str(exc)) from exc
+
+    project = ProjectManager(args.project_dir)
+    project.init(budget=args.budget)
+    if spec is not None:
         apply_build_spec(project.project_dir, spec, source_path=args.spec)
 
     # Show archive info if artifacts were just archived
@@ -2296,7 +2305,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     project = ProjectManager(args.project_dir)
     tree = project.load_tree()
     if not tree:
-        print("No decomposition tree found. Run decomposition first.")
+        print("No decomposition tree found. Run `pact run <project> --plan-only` first.")
         return
 
     contracts = project.load_all_contracts()
@@ -2320,7 +2329,7 @@ def cmd_checklist(args: argparse.Namespace) -> None:
     project = ProjectManager(args.project_dir)
     tree = project.load_tree()
     if not tree:
-        print("No decomposition tree found. Run decomposition first.")
+        print("No decomposition tree found. Run `pact run <project> --plan-only` first.")
         return
 
     contracts = project.load_all_contracts()

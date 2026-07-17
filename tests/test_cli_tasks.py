@@ -318,6 +318,7 @@ class TestCmdChecklist:
         cmd_checklist(args)
         out = capsys.readouterr().out
         assert "No decomposition tree" in out
+        assert "pact run <project> --plan-only" in out
 
     def test_renders_questions(self, project_with_tree: ProjectManager, capsys):
         from pact.cli import cmd_checklist
