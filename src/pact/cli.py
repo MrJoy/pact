@@ -53,7 +53,6 @@ logger = logging.getLogger(__name__)
 
 AGENT_HELP_EPILOG = """required environment:
   PACT_AGENT_COMPONENT              component name or slug
-  PACT_AGENT_COMPONENT_ID           optional path/component id override
   PACT_AGENT_PROJECT                component-scoped Pact project path
   PACT_AGENT_MAX_WALL_SECONDS       1..900, socket timeout for the model call
   PACT_AGENT_MAX_MODEL_TOKENS       1..50000, estimated input + output cap
@@ -61,11 +60,26 @@ AGENT_HELP_EPILOG = """required environment:
   PACT_AGENT_MAX_USD                >0.00 and <=1.00
   OPENAI_API_KEY                    required for the OpenAI Responses API
 
-repair also requires:
-  PACT_AGENT_ALLOWED_CONTEXT        JSON object with the allowed repair context
-  PACT_AGENT_FORBIDDEN_WRITES       must include contracts,visible-tests,control-plane,hidden-oracle
+conditionally required:
+  PACT_AGENT_COMPONENT_ID           set when project/source dir slug differs from component
 
-default mode is dry-run. Pass --apply to write validated changes.
+repair also requires:
+  PACT_AGENT_ALLOWED_CONTEXT        JSON object using issue, issue_context_ref,
+                                    and/or allowed_files
+
+optional compatibility check:
+  PACT_AGENT_FORBIDDEN_WRITES       deprecated; extras are enforced as denied path
+                                    prefixes, and built-in entries must be present if set
+
+default mode is dry-run. Pass --apply to write one validated file change.
+If repair scope is unknown, dry-run first.
+
+example:
+  PACT_AGENT_COMPONENT=payments-api PACT_AGENT_COMPONENT_ID=payments \\
+  PACT_AGENT_PROJECT=pact/payments PACT_AGENT_MAX_WALL_SECONDS=60 \\
+  PACT_AGENT_MAX_MODEL_TOKENS=12000 PACT_AGENT_MAX_TOOL_CALLS=1 \\
+  PACT_AGENT_MAX_USD=0.25 PACT_AGENT_ALLOWED_CONTEXT='{"issue":"BUG-123"}' \\
+  OPENAI_API_KEY=... pact agent repair --source-root services/payments
 """
 
 
@@ -436,7 +450,7 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     p_agent_spec.add_argument("--output", default="", help="Write JSON report to this relative path")
-    p_agent_spec.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")
+    p_agent_spec.add_argument("--apply", action="store_true", help="Apply one validated file change (default: dry-run report)")
 
     p_agent_repair = agent_sub.add_parser(
         "repair",
@@ -446,7 +460,11 @@ def main() -> None:
     )
     p_agent_repair.add_argument("--source-root", action="append", default=[], help="Allowed implementation source root")
     p_agent_repair.add_argument("--output", default="", help="Write JSON report to this relative path")
-    p_agent_repair.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")
+    p_agent_repair.add_argument(
+        "--apply",
+        action="store_true",
+        help="Apply one validated file change; v1.2 rejects multi-file proposals after the model call",
+    )
 
     # Sentinel integration subcommands
     p_sentinel = subparsers.add_parser("sentinel", help="Sentinel integration commands")

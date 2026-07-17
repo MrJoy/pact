@@ -28,6 +28,17 @@
 - `pact agent repair` now requires each `--source-root` to be scoped to the
   component name or `PACT_AGENT_COMPONENT_ID`; broad roots such as `services`
   are rejected.
+- Agent help and README examples now show the exact constrained-agent
+  environment variables, a valid `PACT_AGENT_ALLOWED_CONTEXT` object, when
+  `PACT_AGENT_COMPONENT_ID` is required, and the v1.2 single-file apply ceiling.
+- `PACT_AGENT_ALLOWED_CONTEXT` is now validated as a bounded reference-only
+  schema. The Responses API input uses a separate user message for repository
+  data, while authorization remains in back-end validation rather than prompt
+  construction.
+- Forbidden write classes are enforced from built-in constants. The legacy
+  `PACT_AGENT_FORBIDDEN_WRITES` variable is only an optional deprecated
+  compatibility check; extra entries must be normalized path prefixes and are
+  enforced as denied roots while callers migrate them out of config.
 
 ### Failure Modes
 
@@ -39,7 +50,15 @@
   `PACT_AGENT_*` names.
 - Agent reports include `agent.proposed_paths` for dry runs and
   `agent.applied_paths` only for validated `--apply` writes. Apply mode accepts
-  one file change per run in v1.2.0.
+  one file change per run in v1.2.0; looping partial multi-file repairs is not
+  supported because it can create inconsistent intermediate states. The model
+  call has already happened by the time a multi-file proposal is rejected, so
+  operators should dry-run first when repair scope is unknown. The rejected
+  proposed paths remain in `agent.proposed_paths` for manual recovery.
+- Agent usage reports include estimated post-call spend, estimated wasted spend
+  for failed post-call gates, and `spend_over_cap_estimated_usd`. Both sides of
+  the delta are rate-table estimates; positive means post-call usage exceeded
+  the pre-call cap estimate.
 - Constrained agent writes are rejected when the requested path is outside the
   allowed roots, resolves outside the workspace, crosses an existing symlink, is
   a directory, contains NUL bytes, or exceeds file-size limits.
@@ -49,7 +68,7 @@
 
 ### Validation
 
-- Full local suite: `python3 -m pytest tests/ -v` -> `2268 passed`.
+- Full local suite: `python3 -m pytest tests/ -q` -> `2274 passed`.
 
 ## v1.1.0 - 2026-06-12
 

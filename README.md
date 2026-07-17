@@ -94,18 +94,55 @@ Required agent environment:
 | Variable | Required for | Meaning |
 |----------|--------------|---------|
 | `PACT_AGENT_COMPONENT` | all agent commands | Component name or slug for the run |
-| `PACT_AGENT_COMPONENT_ID` | all agent commands | Optional component/path id when it differs from the display name |
 | `PACT_AGENT_PROJECT` | all agent commands | Component-scoped Pact project directory |
 | `PACT_AGENT_MAX_WALL_SECONDS` | all agent commands | Model-call socket timeout, 1-900 |
 | `PACT_AGENT_MAX_MODEL_TOKENS` | all agent commands | Estimated input plus output token cap, 1-50000 |
 | `PACT_AGENT_MAX_TOOL_CALLS` | all agent commands | Must allow at least one model call; v1.2 performs one model call |
 | `PACT_AGENT_MAX_USD` | all agent commands | Spend cap, greater than 0 and at most 1.00 |
 | `OPENAI_API_KEY` | all agent commands | OpenAI Responses API key |
-| `PACT_AGENT_ALLOWED_CONTEXT` | `repair` | JSON object describing the allowed repair context |
-| `PACT_AGENT_FORBIDDEN_WRITES` | `repair` | Must include `contracts,visible-tests,control-plane,hidden-oracle` |
+| `PACT_AGENT_COMPONENT_ID` | when directory name differs | Pact verifies the final directory name of `PACT_AGENT_PROJECT`. If that name is `payments` but `PACT_AGENT_COMPONENT=payments-api`, set `PACT_AGENT_COMPONENT_ID=payments` |
+| `PACT_AGENT_ALLOWED_CONTEXT` | `repair` | JSON object with only these keys: `issue`, `issue_context_ref`, `allowed_files` |
+| `PACT_AGENT_FORBIDDEN_WRITES` | deprecated | Remove this from config. If present, it must include `contracts,visible-tests,control-plane,hidden-oracle`; extra entries must be normalized path prefixes and are enforced as denied roots |
 
 `pact agent repair` rejects broad top-level source roots. Use a scoped root such
-as `services/api`, `src/api`, or `app/handlers`, not `services` or `.`.
+as `services/api`, `src/api`, or `app/handlers`, not `services` or `.`. If
+`basename "$PACT_AGENT_PROJECT"` differs from `PACT_AGENT_COMPONENT`, set
+`PACT_AGENT_COMPONENT_ID` to that basename.
+
+Example constrained repair dry run:
+
+```bash
+PACT_AGENT_COMPONENT=payments-api \
+PACT_AGENT_COMPONENT_ID=payments \
+PACT_AGENT_PROJECT=pact/payments \
+PACT_AGENT_MAX_WALL_SECONDS=60 \
+PACT_AGENT_MAX_MODEL_TOKENS=12000 \
+PACT_AGENT_MAX_TOOL_CALLS=1 \
+PACT_AGENT_MAX_USD=0.25 \
+PACT_AGENT_ALLOWED_CONTEXT='{"issue":"BUG-123","allowed_files":["services/payments/handler.py"]}' \
+OPENAI_API_KEY=... \
+pact agent repair --source-root services/payments
+```
+
+Security model: file contents can contain text that tries to manipulate the AI
+model. Pact treats repair context as untrusted before it reaches the model and
+accepts only reference fields: a short issue key, a normalized relative
+`issue_context_ref`, and/or `allowed_files` as normalized relative paths.
+`PACT_AGENT_FORBIDDEN_WRITES` is deprecated; remove it from config. If present,
+extra entries are enforced as denied path prefixes.
+
+The authorization boundary is the back-end schema, budget, path, symlink,
+response-shape, and write-root validation plus the tests/certification that
+judge the result. Prompt instructions are best-effort model guidance, not
+authorization controls. `PACT_AGENT_MAX_USD` is a pre-call rate-table estimate,
+not a hard billing stop; use provider/account-level budget alerts for
+high-volume automation.
+
+Warning: use the dry run first when repair scope is unknown. `--apply` in v1.2.0
+accepts exactly one model-proposed file change. If a multi-file proposal is
+rejected after the model call, the proposed paths are in the JSON report under
+`agent.proposed_paths`; capture the report with `--output`, apply the changes
+manually if appropriate, then rerun Pact tests/certification.
 
 For a production-readiness build, scaffold the optional artifact pack first:
 
@@ -268,14 +305,16 @@ The coding agent cannot modify the tests that judge its work. The certification 
 Certification also requires an emission compliance test for every contracted
 component. Missing emission tests are reported as `missing_test: true` and make
 the certification verdict fail instead of silently skipping the invariant.
-Emission compliance tests are deterministic tests generated during decomposition
-to verify that implementations emit the expected structured PACT events/log
-keys. Pact writes them next to visible tests as
+An emission is the structured PACT event/log record that a component writes at
+its contract boundary so an auditor can verify what happened without trusting
+the implementation. An emission compliance test is the deterministic test that
+asserts those event names and required keys are emitted for the component's
+contract scenarios. Pact writes these tests next to visible tests as
 `tests/<component>/emission_test.py` for Python projects, or the corresponding
 language extension for TypeScript/JavaScript projects. For existing projects
-created before v1.2.0, rerun the Pact planning/test-generation flow or add the
-missing `emission_test` file for each contracted component before expecting
-`pact certify` to pass.
+created before v1.2.0, rerun the Pact planning/test-generation flow, run the
+component's test-authoring step again, or add the missing `emission_test` file
+for each contracted component before expecting `pact certify` to pass.
 
 ## Structured Event Emission
 
