@@ -83,7 +83,9 @@ and a Simulacrum skill; Codex can invoke the same review path through Pact.
 Pact also exposes constrained single-call agent lanes for trusted automation:
 `pact agent spec-author` may write only under the component-scoped Pact project,
 and `pact agent repair --source-root <dir>` may write only under explicit source
-roots after budget and path-policy validation.
+roots after budget and path-policy validation. Invalid caps, paths, context, or
+model responses fail closed with a JSON report under `policy.violations`; files
+are written only after the policy and write guard both pass.
 
 For a production-readiness build, scaffold the optional artifact pack first:
 
@@ -243,6 +245,9 @@ pact certify ./my-project       # Tamper-evident certification proof
 ```
 
 The coding agent cannot modify the tests that judge its work. The certification artifact includes SHA-256 hashes of all contracts, tests, and implementations with a self-integrity hash.
+Certification also requires an emission compliance test for every contracted
+component. Missing emission tests are reported as `missing_test: true` and make
+the certification verdict fail instead of silently skipping the invariant.
 
 ## Structured Event Emission
 
