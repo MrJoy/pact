@@ -43,7 +43,7 @@ def _env(**overrides: str) -> dict[str, str]:
 
 
 def _args(**overrides: object) -> argparse.Namespace:
-    values: dict[str, object] = {"output": "", "source_root": []}
+    values: dict[str, object] = {"output": "", "source_root": [], "apply": False}
     values.update(overrides)
     return argparse.Namespace(**values)
 
@@ -185,6 +185,49 @@ def test_repair_rejects_forbidden_source_root(tmp_path: Path, monkeypatch: pytes
     assert result == 2
 
 
+def test_repair_rejects_broad_non_component_source_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    _workspace(tmp_path)
+    monkeypatch.chdir(tmp_path)
+
+    result = agent.run_agent_repair(_args(source_root=["services"]), env=_env())
+
+    assert result == 2
+
+
+def test_repair_defaults_to_dry_run_without_writing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    _workspace(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    output = tmp_path / "dry-run-report.json"
+    handler = tmp_path / "services" / "api" / "handler.py"
+    original_handler = handler.read_text(encoding="utf-8")
+    new_handler = "def handler():\n    return 'fixed'\n"
+
+    with patch(
+        "pact.agent._post_openai_response",
+        side_effect=_successful_openai(
+            {},
+            {
+                "status": "changed",
+                "summary": "updated handler",
+                "changes": [{"path": "services/api/handler.py", "content": new_handler}],
+            },
+        ),
+    ):
+        result = agent.run_agent_repair(
+            _args(source_root=["services/api"], output="dry-run-report.json"),
+            env=_env(),
+        )
+
+    report = _load_report(output)
+    assert result == 0
+    assert report["accepted"] is True
+    assert report["apply"] is False
+    assert report["write_guard"]["status"] == "dry-run"
+    assert report["agent"]["proposed_paths"] == ["services/api/handler.py"]
+    assert report["agent"]["applied_paths"] == []
+    assert handler.read_text(encoding="utf-8") == original_handler
+
+
 def test_repair_openai_request_is_bounded_and_applies_allowed_changes(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -207,7 +250,7 @@ def test_repair_openai_request_is_bounded_and_applies_allowed_changes(
         ),
     ):
         result = agent.run_agent_repair(
-            _args(source_root=["services/api"], output="repair-report.json"),
+            _args(source_root=["services/api"], output="repair-report.json", apply=True),
             env=_env(),
         )
 
@@ -232,6 +275,8 @@ def test_repair_openai_request_is_bounded_and_applies_allowed_changes(
     assert "pact/api/contracts/contract.json" in included_paths
     assert (tmp_path / "services" / "api" / "handler.py").read_text(encoding="utf-8") == new_handler
     assert report["agent"]["usage"]["model_calls"] == 1
+    assert report["apply"] is True
+    assert report["agent"]["proposed_paths"] == ["services/api/handler.py"]
     assert report["agent"]["applied_paths"] == ["services/api/handler.py"]
 
 
@@ -302,7 +347,7 @@ def test_openai_response_usage_over_cap_blocks_writes(
         ),
     ):
         result = agent.run_agent_repair(
-            _args(source_root=["services/api"], output="over-budget-report.json"),
+            _args(source_root=["services/api"], output="over-budget-report.json", apply=True),
             env=_env(),
         )
 
@@ -416,7 +461,7 @@ def test_write_guard_rejects_forbidden_changes(tmp_path: Path, monkeypatch: pyte
         ),
     ):
         result = agent.run_agent_repair(
-            _args(source_root=["services/api"], output="write-guard-report.json"),
+            _args(source_root=["services/api"], output="write-guard-report.json", apply=True),
             env=_env(),
         )
 
@@ -448,7 +493,7 @@ def test_write_guard_rejects_symlinked_allowed_path(tmp_path: Path, monkeypatch:
         ),
     ):
         result = agent.run_agent_repair(
-            _args(source_root=["services/api"], output="symlink-report.json"),
+            _args(source_root=["services/api"], output="symlink-report.json", apply=True),
             env=_env(),
         )
 

@@ -85,7 +85,9 @@ Pact also exposes constrained single-call agent lanes for trusted automation:
 and `pact agent repair --source-root <dir>` may write only under explicit source
 roots after budget and path-policy validation. Invalid caps, paths, context, or
 model responses fail closed with a JSON report under `policy.violations`; files
-are written only after the policy and write guard both pass.
+are written only when `--apply` is supplied after the policy and write guard
+both pass. Without `--apply`, the command produces a dry-run report with
+`agent.proposed_paths`.
 
 For a production-readiness build, scaffold the optional artifact pack first:
 
@@ -323,8 +325,8 @@ Either, neither, or both. Defaults: both off (sequential, single-attempt).
 | `pact production validate <project>` | Validate a Pact-managed production gate and exit non-zero on blockers |
 | `pact spec apply <project> <file>` | Apply an AI-authored JSON/YAML build spec |
 | `pact spec show <file>` | Normalize and inspect an AI-authored build spec |
-| `pact agent spec-author` | Run one constrained spec-author agent |
-| `pact agent repair --source-root <dir>` | Run one constrained repair agent |
+| `pact agent spec-author [--apply]` | Run one constrained spec-author agent |
+| `pact agent repair --source-root <dir> [--apply]` | Run one constrained repair agent |
 | `pact adopt <project>` | Adopt existing codebase under pact governance |
 | `pact assess <directory>` | Architectural assessment — shallow modules, hub dependencies, coupling |
 | `pact mcp-server` | Run MCP server (stdio transport) |

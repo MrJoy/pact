@@ -24,8 +24,8 @@ pact assess <directory>            # Architectural assessment (any codebase)
 pact export-tasks <project-dir>    # Export TASKS.md
 pact handoff <project-dir> <id>    # Render/validate handoff brief
 pact review <target> --claim <text> # Advocate + Simulacrum review
-pact agent spec-author              # Run one constrained spec-author agent
-pact agent repair --source-root <dir> # Run one constrained repair agent
+pact agent spec-author [--apply]    # Run one constrained spec-author agent
+pact agent repair --source-root <dir> [--apply] # Run one constrained repair agent
 pact directive <project-dir> <json> # Send structured directive to daemon
 pact mcp-server [--project-dir <dir>] # Run MCP server (stdio)
 pact-mcp                              # MCP server entry point

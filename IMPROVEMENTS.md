@@ -42,7 +42,9 @@ and `advocate`/review for the adversarial gate.)
 
 ## 3. Scope clarity: production / certify gates
 
-Status: clarified for v1.2.0 in CLI help and README command descriptions.
+Status: clarified for v1.2.0 in CLI help and README command descriptions. The
+new constrained agent commands also default to dry-run reports and require
+explicit `--apply` before writing files.
 
 `pact production validate` and `pact certify` operate on a pact *project* (with the
 production-readiness pack). They don't apply to a service that lives in another repo

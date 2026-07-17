@@ -7,7 +7,8 @@
 - Added constrained `pact agent spec-author` and `pact agent repair` commands.
   These commands use the OpenAI Responses API directly, require `PACT_AGENT_*`
   budget/context environment variables, collect a bounded file snapshot, and
-  write only inside validated allowed roots.
+  write only inside validated allowed roots when `--apply` is supplied. Without
+  `--apply`, they produce a dry-run report with proposed paths.
 - Added `IMPROVEMENTS.md` with field notes from using Pact against an existing
   service and marked which v1.2.0 items were addressed.
 - Added the Pact engineer lean-review checklist and documented
@@ -24,13 +25,18 @@
 - CLI help and README wording now state that build specs are `.json`, `.yaml`,
   or `.yml`, and that `pact certify` / `pact production validate` operate on
   Pact-managed projects.
+- `pact agent repair` now requires each `--source-root` to be scoped to the
+  component name or `PACT_AGENT_COMPONENT_ID`; broad roots such as `services`
+  are rejected.
 
 ### Failure Modes
 
 - Constrained agent commands exit before model calls when required
   `PACT_AGENT_*` caps, `OPENAI_API_KEY`, component-scoped Pact project paths,
   allowed context, or source-root policies are invalid. JSON reports include
-  `policy.violations` and no files are written on policy failure.
+  `policy.violations` and no files are written on policy failure. `AGENT_SAFE_*`
+  names are intentionally not aliases; wrappers must set the exact
+  `PACT_AGENT_*` names.
 - Constrained agent writes are rejected when the requested path is outside the
   allowed roots, resolves outside the workspace, crosses an existing symlink, is
   a directory, contains NUL bytes, or exceeds file-size limits.

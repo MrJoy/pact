@@ -87,6 +87,7 @@ class AgentResult:
     output_tokens: int
     estimated_cost_usd: float
     applied_paths: tuple[str, ...]
+    proposed_paths: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -300,6 +301,7 @@ def _validate_source_roots(
     roots: Sequence[str],
     cwd: Path,
     pact_project: ResolvedPath | None,
+    component_names: set[str],
     violations: list[dict[str, str]],
 ) -> list[ResolvedPath]:
     if not roots:
@@ -322,6 +324,13 @@ def _validate_source_roots(
         top = Path(root.relative).parts[0]
         if top in FORBIDDEN_SOURCE_ROOT_TOP_LEVELS:
             violations.append(violation("source-root", f"source root {root.relative} is forbidden"))
+        if component_names and Path(root.relative).name not in component_names:
+            violations.append(
+                violation(
+                    "source-root",
+                    "source root must end with PACT_AGENT_COMPONENT or PACT_AGENT_COMPONENT_ID",
+                )
+            )
         if pact_resolved and (
             _path_is_relative_to(root.resolved, pact_resolved)
             or _path_is_relative_to(pact_resolved, root.resolved)
@@ -715,23 +724,24 @@ def _apply_agent_changes(
     cwd: Path,
     payload: Mapping[str, object],
     allowed_roots: Sequence[str],
+    apply_changes: bool,
     violations: list[dict[str, str]],
-) -> tuple[str, tuple[str, ...]]:
+) -> tuple[str, tuple[str, ...], tuple[str, ...]]:
     status = payload.get("status")
     summary = str(payload.get("summary", "") or "")
     if status == "blocked":
         violations.append(violation("agent", summary or "agent blocked due to insufficient context"))
-        return summary, ()
+        return summary, (), ()
     if status == "no_change":
-        return summary, ()
+        return summary, (), ()
     if status != "changed":
         violations.append(violation("agent", "agent returned invalid status"))
-        return summary, ()
+        return summary, (), ()
 
     changes = payload.get("changes")
     if not isinstance(changes, list):
         violations.append(violation("agent", "agent changes must be a list"))
-        return summary, ()
+        return summary, (), ()
 
     prepared: list[tuple[Path, str, str]] = []
     resolved_allowed_roots = _resolved_allowed_roots(cwd, allowed_roots)
@@ -774,15 +784,26 @@ def _apply_agent_changes(
             continue
         prepared.append((path.resolved, path.relative, content))
 
+    proposed = tuple(relative for _, relative, _ in prepared)
     if violations:
-        return summary, ()
+        return summary, (), proposed
+
+    if not apply_changes:
+        return summary, (), proposed
+
+    for resolved, relative, _ in prepared:
+        resolved.parent.mkdir(parents=True, exist_ok=True)
+        if _path_has_existing_symlink_component(cwd, relative):
+            violations.append(violation("write-guard", f"agent attempted symlinked write path after mkdir: {relative}"))
+
+    if violations:
+        return summary, (), proposed
 
     applied: list[str] = []
     for resolved, relative, content in prepared:
-        resolved.parent.mkdir(parents=True, exist_ok=True)
         resolved.write_text(content, encoding="utf-8")
         applied.append(relative)
-    return summary, tuple(applied)
+    return summary, tuple(applied), proposed
 
 
 def run_openai_agent_once(
@@ -799,6 +820,7 @@ def run_openai_agent_once(
     context_files: Sequence[ContextFile],
     env: Mapping[str, str],
     timeout_seconds: int,
+    apply_changes: bool,
     violations: list[dict[str, str]],
 ) -> tuple[OpenAIRequestPlan | None, AgentResult | None]:
     agent_payload = _build_agent_payload(
@@ -874,6 +896,7 @@ def run_openai_agent_once(
             output_tokens=0,
             estimated_cost_usd=0.0,
             applied_paths=(),
+            proposed_paths=(),
         )
     except urllib.error.URLError as error:
         elapsed = time.monotonic() - started
@@ -888,6 +911,7 @@ def run_openai_agent_once(
             output_tokens=0,
             estimated_cost_usd=0.0,
             applied_paths=(),
+            proposed_paths=(),
         )
 
     elapsed = time.monotonic() - started
@@ -916,6 +940,7 @@ def run_openai_agent_once(
             output_tokens=output_tokens,
             estimated_cost_usd=estimated_cost,
             applied_paths=(),
+            proposed_paths=(),
         )
 
     response_text = _extract_response_text(response_payload)
@@ -934,12 +959,14 @@ def run_openai_agent_once(
             output_tokens=output_tokens,
             estimated_cost_usd=estimated_cost,
             applied_paths=(),
+            proposed_paths=(),
         )
 
-    summary, applied_paths = _apply_agent_changes(
+    summary, applied_paths, proposed_paths = _apply_agent_changes(
         cwd=cwd,
         payload=agent_json,
         allowed_roots=allowed_roots,
+        apply_changes=apply_changes,
         violations=violations,
     )
     status = "passed" if not violations else "failed"
@@ -954,6 +981,7 @@ def run_openai_agent_once(
         output_tokens=output_tokens,
         estimated_cost_usd=estimated_cost,
         applied_paths=applied_paths,
+        proposed_paths=proposed_paths,
     )
 
 
@@ -967,6 +995,7 @@ def _base_report(mode: str, cwd: Path, caps: Mapping[str, object], component: st
         "component": component,
         "pact_project": pact_project.relative if pact_project else "",
         "source_roots": [],
+        "apply": False,
         "caps": dict(caps),
         "policy": {"passed": False, "violations": []},
         "allowed_write_roots": [],
@@ -1001,6 +1030,7 @@ def _base_report(mode: str, cwd: Path, caps: Mapping[str, object], component: st
                 "estimated_cost_usd": 0.0,
             },
             "applied_paths": [],
+            "proposed_paths": [],
         },
     }
 
@@ -1027,6 +1057,7 @@ def _run_constrained_agent(
     component = _validate_component(env, violations)
     pact_project = _validate_pact_project(env, cwd, component, violations)
     output_path = _validate_output_path(str(getattr(args, "output", "") or ""), cwd, violations)
+    apply_changes = bool(getattr(args, "apply", False))
 
     source_roots: list[ResolvedPath] = []
     allowed_context: dict[str, object] = {}
@@ -1042,12 +1073,14 @@ def _run_constrained_agent(
             list(getattr(args, "source_root", []) or []),
             cwd,
             pact_project,
+            {name for name in {component, _env_value(env, "PACT_AGENT_COMPONENT_ID").strip()} if name},
             violations,
         )
         allowed_context = _validate_repair_allowed_context(env, violations)
         forbidden_writes = _validate_repair_forbidden_writes(env, violations)
 
     report = _base_report(mode, cwd, caps, component, pact_project)
+    report["apply"] = apply_changes
     report["source_roots"] = [root.relative for root in source_roots]
     allowed_roots = [pact_project.relative] if mode == "spec-author" and pact_project else [root.relative for root in source_roots]
     report["allowed_write_roots"] = allowed_roots
@@ -1081,6 +1114,7 @@ def _run_constrained_agent(
         context_files=context_files,
         env=env,
         timeout_seconds=int(caps["max_wall_seconds"]),
+        apply_changes=apply_changes,
         violations=violations,
     )
     if request_plan is not None:
@@ -1112,6 +1146,7 @@ def _run_constrained_agent(
             "estimated_cost_usd": round(result.estimated_cost_usd, 6),
         },
         "applied_paths": list(result.applied_paths),
+        "proposed_paths": list(result.proposed_paths),
     }
 
     write_guard_violations = [item for item in violations if item.get("name") == "write-guard"]
@@ -1122,7 +1157,7 @@ def _run_constrained_agent(
         and item.get("message", "").startswith("agent attempted forbidden write: ")
     ]
     report["write_guard"] = {
-        "status": "passed" if not write_guard_violations else "failed",
+        "status": "failed" if write_guard_violations else ("dry-run" if result.proposed_paths and not apply_changes else "passed"),
         "forbidden_changed_paths": sorted(set(attempted_forbidden_paths)),
     }
 

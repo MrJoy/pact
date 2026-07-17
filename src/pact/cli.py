@@ -413,11 +413,12 @@ def main() -> None:
     agent_sub = p_agent.add_subparsers(dest="agent_command", required=True)
     p_agent_spec = agent_sub.add_parser("spec-author", help="Run one constrained spec-author agent")
     p_agent_spec.add_argument("--output", default="", help="Write JSON report to this relative path")
-    p_agent_spec.add_argument("--source-root", action="append", default=[], help=argparse.SUPPRESS)
+    p_agent_spec.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")
 
     p_agent_repair = agent_sub.add_parser("repair", help="Run one constrained repair agent")
     p_agent_repair.add_argument("--source-root", action="append", default=[], help="Allowed implementation source root")
     p_agent_repair.add_argument("--output", default="", help="Write JSON report to this relative path")
+    p_agent_repair.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")
 
     # Sentinel integration subcommands
     p_sentinel = subparsers.add_parser("sentinel", help="Sentinel integration commands")
