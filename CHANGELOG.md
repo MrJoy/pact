@@ -37,15 +37,19 @@
   `policy.violations` and no files are written on policy failure. `AGENT_SAFE_*`
   names are intentionally not aliases; wrappers must set the exact
   `PACT_AGENT_*` names.
+- Agent reports include `agent.proposed_paths` for dry runs and
+  `agent.applied_paths` only for validated `--apply` writes. Apply mode accepts
+  one file change per run in v1.2.0.
 - Constrained agent writes are rejected when the requested path is outside the
   allowed roots, resolves outside the workspace, crosses an existing symlink, is
   a directory, contains NUL bytes, or exceeds file-size limits.
 - Certification artifacts now include emission-test hashes/results. A missing
-  emission test records `missing_test: true` and produces a failing verdict.
+  emission test records `missing_test: true`, produces a failing verdict, and
+  is reported as missing during `--verify-only` artifact checks.
 
 ### Validation
 
-- Full local suite: `python3 -m pytest tests/ -v` -> `2264 passed`.
+- Full local suite: `python3 -m pytest tests/ -v` -> `2268 passed`.
 
 ## v1.1.0 - 2026-06-12
 

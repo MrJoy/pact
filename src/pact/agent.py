@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -18,7 +19,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterator, Mapping, Sequence
 
-from pact.budget import get_model_pricing_table
+from pact.budget import estimate_tokens, get_model_pricing_table
 
 MAX_WALL_SECONDS = 900
 MAX_MODEL_TOKENS = 50_000
@@ -324,11 +325,14 @@ def _validate_source_roots(
         top = Path(root.relative).parts[0]
         if top in FORBIDDEN_SOURCE_ROOT_TOP_LEVELS:
             violations.append(violation("source-root", f"source root {root.relative} is forbidden"))
-        if component_names and Path(root.relative).name not in component_names:
+        parts = Path(root.relative).parts
+        is_nested = len(parts) >= 2
+        matches_component = Path(root.relative).name in component_names
+        if component_names and not (is_nested or matches_component):
             violations.append(
                 violation(
                     "source-root",
-                    "source root must end with PACT_AGENT_COMPONENT or PACT_AGENT_COMPONENT_ID",
+                    "source root must be nested or end with PACT_AGENT_COMPONENT/PACT_AGENT_COMPONENT_ID",
                 )
             )
         if pact_resolved and (
@@ -441,7 +445,7 @@ def _plan_openai_request(
         )
         return None
 
-    input_token_bound = len(input_text.encode("utf-8"))
+    input_token_bound = estimate_tokens(input_text)
     max_model_tokens = int(caps.get("max_model_tokens") or 0)
     max_tool_calls = int(caps.get("max_tool_calls") or 0)
     max_usd_cents = int(caps.get("max_usd_cents") or 0)
@@ -791,17 +795,36 @@ def _apply_agent_changes(
     if not apply_changes:
         return summary, (), proposed
 
-    for resolved, relative, _ in prepared:
-        resolved.parent.mkdir(parents=True, exist_ok=True)
-        if _path_has_existing_symlink_component(cwd, relative):
-            violations.append(violation("write-guard", f"agent attempted symlinked write path after mkdir: {relative}"))
+    if len(prepared) > 1:
+        violations.append(violation("write-guard", "apply mode supports one file change per run"))
 
     if violations:
         return summary, (), proposed
 
     applied: list[str] = []
     for resolved, relative, content in prepared:
-        resolved.write_text(content, encoding="utf-8")
+        resolved.parent.mkdir(parents=True, exist_ok=True)
+        if _path_has_existing_symlink_component(cwd, relative):
+            violations.append(violation("write-guard", f"agent attempted symlinked write path after mkdir: {relative}"))
+            return summary, (), proposed
+        temp_path: Path | None = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=resolved.parent,
+                prefix=f".{resolved.name}.pact-agent.",
+                suffix=".tmp",
+                delete=False,
+            ) as temp_file:
+                temp_file.write(content)
+                temp_file.flush()
+                os.fsync(temp_file.fileno())
+                temp_path = Path(temp_file.name)
+            temp_path.replace(resolved)
+        finally:
+            if temp_path is not None and temp_path.exists():
+                temp_path.unlink()
         applied.append(relative)
     return summary, tuple(applied), proposed
 
@@ -863,7 +886,6 @@ def run_openai_agent_once(
         "instructions": instructions,
         "input": agent_payload,
         "max_output_tokens": request_plan.max_output_tokens,
-        "max_tool_calls": int(caps.get("max_tool_calls") or 0),
         "store": False,
         "truncation": "disabled",
         "text": {

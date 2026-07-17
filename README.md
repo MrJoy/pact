@@ -89,6 +89,24 @@ are written only when `--apply` is supplied after the policy and write guard
 both pass. Without `--apply`, the command produces a dry-run report with
 `agent.proposed_paths`.
 
+Required agent environment:
+
+| Variable | Required for | Meaning |
+|----------|--------------|---------|
+| `PACT_AGENT_COMPONENT` | all agent commands | Component name or slug for the run |
+| `PACT_AGENT_COMPONENT_ID` | all agent commands | Optional component/path id when it differs from the display name |
+| `PACT_AGENT_PROJECT` | all agent commands | Component-scoped Pact project directory |
+| `PACT_AGENT_MAX_WALL_SECONDS` | all agent commands | Model-call socket timeout, 1-900 |
+| `PACT_AGENT_MAX_MODEL_TOKENS` | all agent commands | Estimated input plus output token cap, 1-50000 |
+| `PACT_AGENT_MAX_TOOL_CALLS` | all agent commands | Must allow at least one model call; v1.2 performs one model call |
+| `PACT_AGENT_MAX_USD` | all agent commands | Spend cap, greater than 0 and at most 1.00 |
+| `OPENAI_API_KEY` | all agent commands | OpenAI Responses API key |
+| `PACT_AGENT_ALLOWED_CONTEXT` | `repair` | JSON object describing the allowed repair context |
+| `PACT_AGENT_FORBIDDEN_WRITES` | `repair` | Must include `contracts,visible-tests,control-plane,hidden-oracle` |
+
+`pact agent repair` rejects broad top-level source roots. Use a scoped root such
+as `services/api`, `src/api`, or `app/handlers`, not `services` or `.`.
+
 For a production-readiness build, scaffold the optional artifact pack first:
 
 ```bash
@@ -250,6 +268,14 @@ The coding agent cannot modify the tests that judge its work. The certification 
 Certification also requires an emission compliance test for every contracted
 component. Missing emission tests are reported as `missing_test: true` and make
 the certification verdict fail instead of silently skipping the invariant.
+Emission compliance tests are deterministic tests generated during decomposition
+to verify that implementations emit the expected structured PACT events/log
+keys. Pact writes them next to visible tests as
+`tests/<component>/emission_test.py` for Python projects, or the corresponding
+language extension for TypeScript/JavaScript projects. For existing projects
+created before v1.2.0, rerun the Pact planning/test-generation flow or add the
+missing `emission_test` file for each contracted component before expecting
+`pact certify` to pass.
 
 ## Structured Event Emission
 

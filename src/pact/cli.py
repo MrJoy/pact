@@ -51,6 +51,24 @@ from pact.project import ProjectManager
 logger = logging.getLogger(__name__)
 
 
+AGENT_HELP_EPILOG = """required environment:
+  PACT_AGENT_COMPONENT              component name or slug
+  PACT_AGENT_COMPONENT_ID           optional path/component id override
+  PACT_AGENT_PROJECT                component-scoped Pact project path
+  PACT_AGENT_MAX_WALL_SECONDS       1..900, socket timeout for the model call
+  PACT_AGENT_MAX_MODEL_TOKENS       1..50000, estimated input + output cap
+  PACT_AGENT_MAX_TOOL_CALLS         must be >=1; v1.2 performs one model call
+  PACT_AGENT_MAX_USD                >0.00 and <=1.00
+  OPENAI_API_KEY                    required for the OpenAI Responses API
+
+repair also requires:
+  PACT_AGENT_ALLOWED_CONTEXT        JSON object with the allowed repair context
+  PACT_AGENT_FORBIDDEN_WRITES       must include contracts,visible-tests,control-plane,hidden-oracle
+
+default mode is dry-run. Pass --apply to write validated changes.
+"""
+
+
 def main() -> None:
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -411,11 +429,21 @@ def main() -> None:
     # Constrained agent commands
     p_agent = subparsers.add_parser("agent", help="Constrained Pact agent commands")
     agent_sub = p_agent.add_subparsers(dest="agent_command", required=True)
-    p_agent_spec = agent_sub.add_parser("spec-author", help="Run one constrained spec-author agent")
+    p_agent_spec = agent_sub.add_parser(
+        "spec-author",
+        help="Run one constrained spec-author agent",
+        epilog=AGENT_HELP_EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     p_agent_spec.add_argument("--output", default="", help="Write JSON report to this relative path")
     p_agent_spec.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")
 
-    p_agent_repair = agent_sub.add_parser("repair", help="Run one constrained repair agent")
+    p_agent_repair = agent_sub.add_parser(
+        "repair",
+        help="Run one constrained repair agent",
+        epilog=AGENT_HELP_EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     p_agent_repair.add_argument("--source-root", action="append", default=[], help="Allowed implementation source root")
     p_agent_repair.add_argument("--output", default="", help="Write JSON report to this relative path")
     p_agent_repair.add_argument("--apply", action="store_true", help="Apply validated file changes (default: dry-run report)")

@@ -103,6 +103,9 @@ def verify_artifact_hashes(
 
     # Emission compliance tests
     for cid, expected_hash in cert.emission_hashes.items():
+        if not expected_hash:
+            mismatches.append(f"tests/{cid}/emission_test: missing at certification time")
+            continue
         actual = _hash_file(project.emission_test_path(cid))
         if actual != expected_hash:
             mismatches.append(f"tests/{cid}/emission_test: hash mismatch")

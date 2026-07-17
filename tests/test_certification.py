@@ -131,3 +131,16 @@ def test_certify_runs_and_hashes_emission_tests(tmp_path):
     assert cert.emission_hashes["comp_a"]
     assert verify_artifact_hashes(cert, project) == []
     assert runner.await_count == 3
+
+
+def test_verify_artifact_hashes_reports_missing_emission_sentinel(tmp_path):
+    project = _project_with_contract(tmp_path)
+    runner = AsyncMock(return_value=_passing_results())
+
+    with patch("pact.certification.run_contract_tests", runner):
+        cert = asyncio.run(certify(project))
+
+    assert cert.emission_hashes["comp_a"] == ""
+    assert verify_artifact_hashes(cert, project) == [
+        "tests/comp_a/emission_test: missing at certification time"
+    ]

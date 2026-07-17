@@ -266,7 +266,7 @@ def test_repair_openai_request_is_bounded_and_applies_allowed_changes(
     assert report["agent"]["request"]["max_output_tokens"] == request["max_output_tokens"]
     assert report["agent"]["request"]["model_call_bound"] == 1
     assert request["max_output_tokens"] <= 5000
-    assert request["max_tool_calls"] == 10
+    assert "max_tool_calls" not in request
     assert request["store"] is False
     assert request["truncation"] == "disabled"
     assert captured["api_key"] == "sk-test"
@@ -304,7 +304,7 @@ def test_openai_request_is_not_sent_when_usd_cap_cannot_cover_context(
 ):
     _workspace(tmp_path)
     monkeypatch.chdir(tmp_path)
-    (tmp_path / "services" / "api" / "large-context.py").write_text("x" * 12_000, encoding="utf-8")
+    (tmp_path / "services" / "api" / "large-context.py").write_text("x" * 30_000, encoding="utf-8")
     output = tmp_path / "cap-report.json"
 
     with patch("pact.agent._post_openai_response") as post:
@@ -358,6 +358,40 @@ def test_openai_response_usage_over_cap_blocks_writes(
     assert handler.read_text(encoding="utf-8") == original_handler
     assert report["agent"]["usage"]["model_calls"] == 1
     assert any(item["name"] == "budget" for item in report["policy"]["violations"])
+
+
+def test_apply_rejects_multiple_file_changes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    _workspace(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    output = tmp_path / "multi-report.json"
+    handler = tmp_path / "services" / "api" / "handler.py"
+    original_handler = handler.read_text(encoding="utf-8")
+
+    with patch(
+        "pact.agent._post_openai_response",
+        return_value=_response(
+            {
+                "status": "changed",
+                "summary": "two changes",
+                "changes": [
+                    {"path": "services/api/handler.py", "content": "owned\n"},
+                    {"path": "services/api/other.py", "content": "owned\n"},
+                ],
+            }
+        ),
+    ):
+        result = agent.run_agent_repair(
+            _args(source_root=["services/api"], output="multi-report.json", apply=True),
+            env=_env(),
+        )
+
+    report = _load_report(output)
+    assert result == 3
+    assert report["accepted"] is False
+    assert report["agent"]["applied_paths"] == []
+    assert report["agent"]["proposed_paths"] == ["services/api/handler.py", "services/api/other.py"]
+    assert handler.read_text(encoding="utf-8") == original_handler
+    assert not (tmp_path / "services" / "api" / "other.py").exists()
 
 
 def test_openai_timeout_returns_failed_report(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
