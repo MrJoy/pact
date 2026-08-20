@@ -400,6 +400,19 @@ _TS_DYNAMIC_IMPORT_RE = re.compile(
     r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]""",
 )
 
+# Side-effect import: `import "spec"` — no clause, no `from`, evaluated purely
+# for what loading the module does (installing a polyfill, registering a plugin,
+# running a decorator shim).
+#
+# Requiring the quote to follow `import` directly is what keeps this pattern off
+# every other import form: a clause, a default binding, or `type` all put a
+# non-quote token there. Line-anchoring keeps the specifier of a clause wrapped
+# onto its own line from being read as a bare side-effect import.
+_TS_SIDE_EFFECT_IMPORT_RE = re.compile(
+    r"""^[ \t]*import\s+['"]([^'"]+)['"]""",
+    re.MULTILINE,
+)
+
 # Import names: import { foo, bar } from '...'
 _TS_IMPORT_NAMES_RE = re.compile(
     r"""import\s*\{([^}]+)\}\s*from""",
@@ -982,14 +995,15 @@ def _extract_ts_test_function_names(source: str) -> list[str]:
 def _extract_ts_imports(source: str) -> list[str]:
     """Extract imported module paths from TypeScript source.
 
-    Covers static `import ... from "spec"` and dynamic `import("spec")`.
-    Results are returned in source order so a reader of `SourceFile.imports`
-    sees the file's dependencies in the order they appear, whichever form each
-    one takes.
+    Covers static `import ... from "spec"`, dynamic `import("spec")`, and the
+    bare side-effect form `import "spec"`. Results come back in source order, so a reader of
+    `SourceFile.imports` sees the file's dependencies in the order they appear
+    whichever form each one takes.
     """
     matches = [
         *_TS_IMPORT_FROM_RE.finditer(source),
         *_TS_DYNAMIC_IMPORT_RE.finditer(source),
+        *_TS_SIDE_EFFECT_IMPORT_RE.finditer(source),
     ]
     matches.sort(key=lambda m: m.start())
     return [m.group(1) for m in matches]

@@ -7,6 +7,7 @@ import textwrap
 import pytest
 
 from pact.codebase_analyzer import (
+    _TS_SIDE_EFFECT_IMPORT_RE,
     _extract_ts_imports,
     analyze_codebase,
     map_test_coverage,
@@ -231,6 +232,82 @@ class TestTypeScriptImportExtraction:
 
     def test_importsomething_call_is_not_a_dynamic_import(self):
         source = 'importAll("./x.ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_relative_side_effect_import(self):
+        source = 'import "./polyfill.ts"\n'
+        assert _extract_ts_imports(source) == ["./polyfill.ts"]
+
+    def test_bare_package_side_effect_import(self):
+        source = 'import "reflect-metadata"\n'
+        assert _extract_ts_imports(source) == ["reflect-metadata"]
+
+    def test_side_effect_import_single_quotes(self):
+        source = "import './polyfill.ts'\n"
+        assert _extract_ts_imports(source) == ["./polyfill.ts"]
+
+    def test_side_effect_import_with_semicolon(self):
+        source = 'import "./polyfill.ts";\n'
+        assert _extract_ts_imports(source) == ["./polyfill.ts"]
+
+    def test_indented_side_effect_import(self):
+        source = '    import "./polyfill.ts"\n'
+        assert _extract_ts_imports(source) == ["./polyfill.ts"]
+
+    def test_side_effect_import_with_trailing_comment(self):
+        source = 'import "./polyfill.ts" // installs the global\n'
+        assert _extract_ts_imports(source) == ["./polyfill.ts"]
+
+    def test_side_effect_and_static_imports_are_returned_in_source_order(self):
+        source = textwrap.dedent("""\
+            import "reflect-metadata"
+            import { Effect } from "effect"
+            import "./polyfill.ts"
+            import { last } from "./last.ts"
+        """)
+        assert _extract_ts_imports(source) == [
+            "reflect-metadata",
+            "effect",
+            "./polyfill.ts",
+            "./last.ts",
+        ]
+
+    def test_repeated_side_effect_import_is_not_deduplicated(self):
+        source = textwrap.dedent("""\
+            import "./polyfill.ts"
+            import "./polyfill.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./polyfill.ts", "./polyfill.ts"]
+
+    def test_static_import_is_not_counted_twice(self):
+        """`import x from "y"` must match one pattern, not both."""
+        source = 'import foo from "./foo.ts"\n'
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_multiline_clause_is_not_matched_as_a_side_effect_import(self):
+        """The inner specifier of a wrapped clause is not a bare side-effect import.
+
+        Asserted against the pattern rather than `_extract_ts_imports` so the
+        guard stays true whatever the `from` pattern is later taught to match.
+        """
+        source = textwrap.dedent("""\
+            import {
+              foo,
+              bar,
+            } from "./foo.ts"
+        """)
+        assert _TS_SIDE_EFFECT_IMPORT_RE.findall(source) == []
+
+    def test_export_from_is_not_matched_as_a_side_effect_import(self):
+        source = 'export { helper } from "./helper.ts"\n'
+        assert _TS_SIDE_EFFECT_IMPORT_RE.findall(source) == []
+
+    def test_static_import_is_not_matched_as_a_side_effect_import(self):
+        source = 'import foo from "./foo.ts"\n'
+        assert _TS_SIDE_EFFECT_IMPORT_RE.findall(source) == []
+
+    def test_import_inside_an_identifier_is_not_a_side_effect_import(self):
+        source = 'importSomething "./x.ts"\n'
         assert _extract_ts_imports(source) == []
 
 
