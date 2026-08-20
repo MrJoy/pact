@@ -378,11 +378,14 @@ _TS_IMPORT_FROM_RE = re.compile(
 # identifier (`notimport(...)`) or a member access (`loader.import(...)`), and
 # `\b` rejects the leading-substring case (`importAll(...)`).
 #
-# Only quoted string literals are captured. A computed specifier such as
-# `import(`./${name}.ts`)` is not statically resolvable, so it is skipped rather
-# than recorded as a junk module path.
+# Only a whole quoted string literal is captured, and the trailing `[,)]`
+# is what makes it whole. A computed specifier is not statically resolvable, so
+# it is skipped rather than recorded as a junk module path -- whether it is a
+# template literal (`import(`./${name}.ts`)`), a concatenation
+# (`import("./pms/" + name)`), or a call on a literal (`import("./x".trim())`).
+# The comma admits the import-attributes form, `import("./x.json", { with: ... })`.
 _TS_DYNAMIC_IMPORT_RE = re.compile(
-    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]""",
+    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]\s*[,)]""",
 )
 
 # Import names: import { foo, bar } from '...'

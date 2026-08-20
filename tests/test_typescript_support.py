@@ -171,6 +171,36 @@ class TestTypeScriptImportExtraction:
         source = 'importAll("./x.ts")\n'
         assert _extract_ts_imports(source) == []
 
+    def test_concatenated_specifier_is_skipped(self):
+        """`"./x" + name` is not statically resolvable; the prefix is not the module."""
+        source = 'const m = await import("./pms/" + name + ".ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_specifier_with_a_method_call_is_skipped(self):
+        source = 'const m = await import("./x.ts".trim())\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_ternary_specifier_is_skipped(self):
+        source = 'const m = await import(dev ? "./dev.ts" : "./prod.ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_concatenated_specifier_does_not_hide_neighbours(self):
+        source = textwrap.dedent("""\
+            import { before } from "./before.ts"
+            const m = await import("./pms/" + name + ".ts")
+            const n = await import("./after.ts")
+        """)
+        assert _extract_ts_imports(source) == ["./before.ts", "./after.ts"]
+
+    def test_dynamic_import_with_options_is_extracted(self):
+        """An import attributes object follows the specifier after a comma."""
+        source = 'const data = await import("./data.json", { with: { type: "json" } })\n'
+        assert _extract_ts_imports(source) == ["./data.json"]
+
+    def test_dynamic_import_with_padding_inside_the_parens(self):
+        source = 'const m = await import( "./x.ts" )\n'
+        assert _extract_ts_imports(source) == ["./x.ts"]
+
 
 # ── Function Extraction: Standard TypeScript ────────────────────────
 
