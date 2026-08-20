@@ -396,6 +396,232 @@ class TestEffectTSExtraction:
         assert "CONFIG" not in names
 
 
+# ── Cyclomatic Complexity ──────────────────────────────────────────
+
+
+def _complexity_of(source: str, name: str) -> int:
+    funcs = extract_functions_typescript("sample.ts", source)
+    matches = [f for f in funcs if f.name == name]
+    assert matches, f"{name!r} not extracted from sample; got {[f.name for f in funcs]}"
+    return matches[0].complexity
+
+
+class TestTypeScriptComplexity:
+    def test_straight_line_function_is_one(self):
+        source = textwrap.dedent("""\
+            export function add(a: number, b: number): number {
+              return a + b
+            }
+        """)
+        assert _complexity_of(source, "add") == 1
+
+    def test_if_adds_one(self):
+        source = textwrap.dedent("""\
+            export function clamp(n: number): number {
+              if (n < 0) {
+                return 0
+              }
+              return n
+            }
+        """)
+        assert _complexity_of(source, "clamp") == 2
+
+    def test_else_alone_adds_nothing(self):
+        source = textwrap.dedent("""\
+            export function sign(n: number): string {
+              if (n < 0) {
+                return "neg"
+              } else {
+                return "pos"
+              }
+            }
+        """)
+        assert _complexity_of(source, "sign") == 2
+
+    def test_else_if_chain_counts_each_branch(self):
+        source = textwrap.dedent("""\
+            export function bucket(n: number): string {
+              if (n < 0) {
+                return "neg"
+              } else if (n === 0) {
+                return "zero"
+              } else if (n < 10) {
+                return "small"
+              }
+              return "big"
+            }
+        """)
+        assert _complexity_of(source, "bucket") == 4
+
+    def test_loops_add_one_each(self):
+        source = textwrap.dedent("""\
+            export function total(rows: number[][]): number {
+              let sum = 0
+              for (const row of rows) {
+                let i = 0
+                while (i < row.length) {
+                  sum += row[i]
+                  i++
+                }
+              }
+              return sum
+            }
+        """)
+        assert _complexity_of(source, "total") == 3
+
+    def test_catch_adds_one(self):
+        source = textwrap.dedent("""\
+            export function safe(fn: () => number): number {
+              try {
+                return fn()
+              } catch (e) {
+                return 0
+              }
+            }
+        """)
+        assert _complexity_of(source, "safe") == 2
+
+    def test_switch_counts_each_case(self):
+        source = textwrap.dedent("""\
+            export function name(kind: string): string {
+              switch (kind) {
+                case "a":
+                  return "alpha"
+                case "b":
+                  return "beta"
+                default:
+                  return "other"
+              }
+            }
+        """)
+        assert _complexity_of(source, "name") == 3
+
+    def test_logical_operators_add_one_each(self):
+        source = textwrap.dedent("""\
+            export function ok(a: boolean, b: boolean, c: boolean): boolean {
+              return a && b || c
+            }
+        """)
+        assert _complexity_of(source, "ok") == 3
+
+    def test_nullish_coalescing_adds_one(self):
+        source = textwrap.dedent("""\
+            export function pick(a: string | null): string {
+              return a ?? "fallback"
+            }
+        """)
+        assert _complexity_of(source, "pick") == 2
+
+    def test_ternary_adds_one(self):
+        source = textwrap.dedent("""\
+            export function label(n: number): string {
+              return n > 0 ? "pos" : "nonpos"
+            }
+        """)
+        assert _complexity_of(source, "label") == 2
+
+    def test_optional_chaining_is_not_a_decision_point(self):
+        source = textwrap.dedent("""\
+            export function deep(o: { a?: { b?: string } }): string | undefined {
+              return o?.a?.b
+            }
+        """)
+        assert _complexity_of(source, "deep") == 1
+
+    def test_keywords_in_strings_are_not_counted(self):
+        source = textwrap.dedent("""\
+            export function describe(): string {
+              return "if you switch the case for a while"
+            }
+        """)
+        assert _complexity_of(source, "describe") == 1
+
+    def test_keywords_in_comments_are_not_counted(self):
+        source = textwrap.dedent("""\
+            export function plain(): number {
+              // if the value is odd, while looping, switch case
+              /* for example: a && b || c ?? d */
+              return 1
+            }
+        """)
+        assert _complexity_of(source, "plain") == 1
+
+    def test_identifier_containing_keyword_is_not_counted(self):
+        source = textwrap.dedent("""\
+            export function run(): number {
+              const iffy = 1
+              const switcher = 2
+              const forward = 3
+              return iffy + switcher + forward
+            }
+        """)
+        assert _complexity_of(source, "run") == 1
+
+    def test_arrow_function_with_block_body(self):
+        source = textwrap.dedent("""\
+            export const check = (n: number): boolean => {
+              if (n > 0) {
+                return true
+              }
+              return false
+            }
+        """)
+        assert _complexity_of(source, "check") == 2
+
+    def test_arrow_function_with_expression_body(self):
+        source = 'export const check = (n: number): string => n > 0 ? "y" : "n"\n'
+        assert _complexity_of(source, "check") == 2
+
+    def test_effect_gen_body_is_measured(self):
+        source = textwrap.dedent("""\
+            export const getUser = Effect.gen(function*() {
+              const repo = yield* UserRepo
+              if (repo === null) {
+                return yield* Effect.fail("no repo")
+              }
+              return yield* repo.getById("123")
+            })
+        """)
+        assert _complexity_of(source, "getUser") == 2
+
+    def test_only_own_body_is_measured(self):
+        """A later function's branches must not leak into an earlier one."""
+        source = textwrap.dedent("""\
+            export function first(): number {
+              return 1
+            }
+
+            export function second(n: number): number {
+              if (n > 0) {
+                return 1
+              }
+              if (n < 0) {
+                return -1
+              }
+              return 0
+            }
+        """)
+        assert _complexity_of(source, "first") == 1
+        assert _complexity_of(source, "second") == 3
+
+    def test_template_literal_keywords_are_not_counted(self):
+        source = textwrap.dedent("""\
+            export function greet(n: string): string {
+              return `if ${n} while switch`
+            }
+        """)
+        assert _complexity_of(source, "greet") == 1
+
+    def test_schema_declaration_stays_at_one(self):
+        source = textwrap.dedent("""\
+            export const UserSchema = Schema.Struct({
+              id: Schema.String,
+              name: Schema.String,
+            })
+        """)
+        assert _complexity_of(source, "UserSchema") == 1
+
+
 # ── Smoke Test Generation ─────────────────────────────────────────
 
 

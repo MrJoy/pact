@@ -574,6 +574,127 @@ def _extract_ts_return_type_after_paren(source: str, paren_start: int) -> str:
     return ""
 
 
+# Decision points for TypeScript/JavaScript cyclomatic complexity.
+#
+# `else` alone is not a branch -- an `else if` is counted by its own `if`, and a
+# `default:` clause is the fall-through, not a decision. `do ... while` is
+# counted once, by its `while`. `??` is listed before the ternary `?` so the
+# nullish operator is not read as two ternaries, and the ternary excludes `?.`
+# (optional chaining) and `?:` (optional property/parameter).
+_TS_DECISION_RE = re.compile(
+    r"""\b(?:if|for|while|case|catch)\b|&&|\|\||\?\?|\?(?![.?:])"""
+)
+
+_TS_BRACKET_PAIRS = {"(": ")", "[": "]", "{": "}"}
+
+
+def _mask_ts_literals(source: str) -> str:
+    """Blank out comment and string-literal contents, preserving every offset.
+
+    Returns a string the same length as ``source`` in which the interior of
+    every line comment, block comment, single/double-quoted string, and
+    template literal is replaced by spaces. Newlines are kept so line numbers
+    still line up, and delimiters are kept so bracket matching is unaffected.
+
+    Scanning the masked copy means keywords and operators appearing inside
+    strings and comments cannot be mistaken for code.
+    """
+    out = list(source)
+    i, n = 0, len(source)
+
+    def blank(start: int, stop: int) -> None:
+        for k in range(max(start, 0), min(stop, n)):
+            if out[k] != "\n":
+                out[k] = " "
+
+    while i < n:
+        char = source[i]
+        nxt = source[i + 1] if i + 1 < n else ""
+
+        if char == "/" and nxt == "/":
+            end = source.find("\n", i)
+            end = n if end < 0 else end
+            blank(i, end)
+            i = end
+        elif char == "/" and nxt == "*":
+            end = source.find("*/", i + 2)
+            end = n if end < 0 else end + 2
+            blank(i, end)
+            i = end
+        elif char in "'\"`":
+            j = i + 1
+            while j < n:
+                if source[j] == "\\":
+                    j += 2
+                    continue
+                if source[j] == char:
+                    break
+                j += 1
+            blank(i + 1, j)
+            i = min(j + 1, n)
+        else:
+            i += 1
+
+    return "".join(out)
+
+
+def _match_bracket(masked: str, open_index: int) -> int:
+    """Index of the bracket closing the one at ``open_index``, or -1."""
+    open_char = masked[open_index]
+    close_char = _TS_BRACKET_PAIRS.get(open_char)
+    if close_char is None:
+        return -1
+
+    depth = 0
+    for j in range(open_index, len(masked)):
+        if masked[j] == open_char:
+            depth += 1
+        elif masked[j] == close_char:
+            depth -= 1
+            if depth == 0:
+                return j
+    return -1
+
+
+def _ts_block_body(masked: str, search_from: int) -> str:
+    """Body of the next `{ ... }` block, if one starts the next statement.
+
+    Returns "" when a `;` intervenes -- an overload signature or an ambient
+    `declare function` has no body, and the next `{` belongs to something else.
+    """
+    brace = masked.find("{", search_from)
+    if brace < 0:
+        return ""
+
+    semicolon = masked.find(";", search_from)
+    if 0 <= semicolon < brace:
+        return ""
+
+    close = _match_bracket(masked, brace)
+    return masked[brace : close + 1] if close > 0 else masked[brace:]
+
+
+def _ts_expression_body(masked: str, start: int) -> str:
+    """Expression body of a concise arrow, up to the end of the statement."""
+    depth = 0
+    for j in range(start, len(masked)):
+        char = masked[j]
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            if depth == 0:
+                return masked[start:j]
+            depth -= 1
+        elif depth == 0 and (char == ";" or char == "\n"):
+            return masked[start:j]
+    return masked[start:]
+
+
+def _compute_ts_complexity(body: str) -> int:
+    """McCabe cyclomatic complexity for a masked TypeScript/JavaScript body."""
+    return 1 + len(_TS_DECISION_RE.findall(body))
+
+
 def extract_functions_typescript(
     file_path: str | Path, source: str | None = None,
 ) -> list[ExtractedFunction]:
@@ -592,6 +713,10 @@ def extract_functions_typescript(
             return []
 
     source_lines = source.splitlines()
+    # Offset-preserving copy with comment and string contents blanked, so
+    # bracket matching and decision-point counting never see keywords or
+    # brackets that live inside a literal.
+    masked = _mask_ts_literals(source)
     functions: list[ExtractedFunction] = []
     matched_lines: set[int] = set()  # line numbers already captured
 
@@ -610,6 +735,9 @@ def extract_functions_typescript(
         params = _extract_ts_params(source, paren_pos)
         return_type = _extract_ts_return_type_after_paren(source, paren_pos)
 
+        params_close = _match_bracket(masked, paren_pos)
+        body = _ts_block_body(masked, params_close + 1) if params_close > 0 else ""
+
         decorators: list[str] = []
         if is_exported:
             decorators.append("export")
@@ -620,7 +748,7 @@ def extract_functions_typescript(
             name=name,
             params=params,
             return_type=return_type,
-            complexity=1,
+            complexity=_compute_ts_complexity(body),
             body_source="",
             line_number=line_number,
             is_async=is_async,
@@ -663,6 +791,7 @@ def extract_functions_typescript(
 
         params: list[ExtractedParameter] = []
         is_async = False
+        body = ""
 
         if kind == "arrow":
             stripped = after_eq.lstrip()
@@ -679,20 +808,34 @@ def extract_functions_typescript(
                 single_match = re.match(r"\s*(?:async\s+)?(\w+)\s*=>", after_eq)
                 if single_match:
                     params = [ExtractedParameter(name=single_match.group(1))]
-        elif kind == "effect_gen":
-            decorators.append("effect_gen")
-        elif kind == "pipe":
-            decorators.append("pipe")
-        elif kind == "layer":
-            decorators.append("layer")
-        elif kind == "schema":
-            decorators.append("schema")
+
+            # The body is whatever follows `=>`: either a block or a single
+            # expression. Search the mask so a `=>` inside a default-parameter
+            # string cannot be mistaken for the arrow.
+            arrow = masked.find("=>", eq_pos)
+            if arrow >= 0:
+                after_arrow = arrow + 2
+                rest = masked[after_arrow:]
+                lead = len(rest) - len(rest.lstrip())
+                if rest.lstrip().startswith("{"):
+                    body = _ts_block_body(masked, after_arrow + lead)
+                else:
+                    body = _ts_expression_body(masked, after_arrow)
+        elif kind in ("effect_gen", "pipe", "layer", "schema"):
+            decorators.append(kind)
+            # `Effect.gen(function*() { ... })`, `pipe(a, b)`, `Layer.effect(...)`,
+            # `Schema.Struct({ ... })` -- the body is the balanced call span.
+            call_open = masked.find("(", eq_pos)
+            if call_open >= 0:
+                call_close = _match_bracket(masked, call_open)
+                if call_close > 0:
+                    body = masked[call_open : call_close + 1]
 
         functions.append(ExtractedFunction(
             name=name,
             params=params,
             return_type=return_type,
-            complexity=1,
+            complexity=_compute_ts_complexity(body),
             body_source="",
             line_number=line_number,
             is_async=is_async or kind == "effect_gen",
