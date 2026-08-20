@@ -12,6 +12,7 @@ import logging
 import os
 import re
 import textwrap
+import posixpath
 from pathlib import Path
 
 from pact.schemas_testgen import (
@@ -1502,6 +1503,58 @@ def compute_complexity(node: ast.AST) -> int:
 
 # ── Coverage Mapping ───────────────────────────────────────────────
 
+# Extensions stripped when turning a source path into a dotted module name.
+_MODULE_EXTENSIONS = (".py", ".ts", ".tsx", ".js", ".jsx", ".rs")
+
+# Candidate suffixes appended to an extensionless relative specifier, in the
+# order a TypeScript/JavaScript resolver would try them.
+_SPECIFIER_SUFFIXES = (
+    "", ".ts", ".tsx", ".js", ".jsx", ".mts", ".cts",
+    "/index.ts", "/index.tsx", "/index.js", "/index.jsx", "/mod.ts",
+)
+
+
+def _module_name(path: str) -> str:
+    """Turn a project-relative source path into a dotted module name."""
+    module = path.replace("/", ".").replace("\\", ".")
+    for ext in _MODULE_EXTENSIONS:
+        if module.endswith(ext):
+            return module[: -len(ext)]
+    return module
+
+
+def _resolve_relative_specifier(
+    importer_path: str,
+    specifier: str,
+    known_paths: set[str],
+) -> str | None:
+    """Resolve a relative import specifier to a known project-relative path.
+
+    TypeScript and JavaScript import each other by path, not by dotted module
+    name -- ``import { foo } from "../foo.ts"``. Resolving that against the
+    importing file's directory is the only way to know which module it names.
+
+    Returns the matching entry of ``known_paths``, or None when the specifier
+    names nothing in the project (a missing file, or a path that climbs out of
+    the project root).
+    """
+    if not specifier.startswith("."):
+        return None
+
+    base = posixpath.dirname(importer_path)
+    joined = posixpath.normpath(posixpath.join(base, specifier))
+
+    # normpath leaves a leading ".." when the specifier climbs past the root.
+    if joined.startswith("..") or posixpath.isabs(joined):
+        return None
+
+    for suffix in _SPECIFIER_SUFFIXES:
+        candidate = joined + suffix
+        if candidate in known_paths:
+            return candidate
+
+    return None
+
 
 def map_test_coverage(
     source_files: list[SourceFile],
@@ -1518,12 +1571,10 @@ def map_test_coverage(
     func_to_file: dict[str, str] = {}
     func_to_complexity: dict[str, int] = {}
 
+    known_paths = {sf.path for sf in source_files}
+
     for sf in source_files:
-        module = sf.path.replace("/", ".").replace("\\", ".")
-        for _ext in (".py", ".ts", ".js", ".tsx", ".jsx", ".rs"):
-            if module.endswith(_ext):
-                module = module[:-len(_ext)]
-                break
+        module = _module_name(sf.path)
         func_names = {f.name for f in sf.functions}
         module_to_functions[module] = func_names
         for f in sf.functions:
@@ -1538,6 +1589,16 @@ def map_test_coverage(
         # Heuristic 1: Which source modules does this test import?
         imported_source_modules: set[str] = set()
         for imp in tf.imported_modules:
+            # TypeScript/JavaScript import by path, not by dotted module name.
+            # Resolve those against the test file's directory; a relative
+            # specifier that resolves to nothing names nothing in the project,
+            # so it must not fall through to the dotted-name heuristic below.
+            if imp.startswith("."):
+                resolved = _resolve_relative_specifier(tf.path, imp, known_paths)
+                if resolved is not None:
+                    imported_source_modules.add(_module_name(resolved))
+                continue
+
             for module_name in module_to_functions:
                 # Check if import matches or is a sub-import
                 if imp == module_name or module_name.endswith(f".{imp}") or imp.endswith(f".{module_name.split('.')[-1]}"):
@@ -1555,11 +1616,7 @@ def map_test_coverage(
 
         # Mark functions as covered
         for sf in source_files:
-            module = sf.path.replace("/", ".").replace("\\", ".")
-            for _ext in (".py", ".ts", ".js", ".tsx", ".jsx", ".rs"):
-                if module.endswith(_ext):
-                    module = module[:-len(_ext)]
-                    break
+            module = _module_name(sf.path)
 
             for func in sf.functions:
                 key = f"{sf.path}::{func.name}"
