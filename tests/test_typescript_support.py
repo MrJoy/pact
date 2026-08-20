@@ -9,6 +9,7 @@ import pytest
 from pact.codebase_analyzer import (
     _extract_ts_imports,
     analyze_codebase,
+    map_test_coverage,
     discover_source_files,
     discover_tests,
     extract_functions_typescript,
@@ -21,6 +22,7 @@ from pact.schemas_testgen import (
     CodebaseAnalysis,
     ExtractedFunction,
     SourceFile,
+    TestFile,
 )
 
 
@@ -471,6 +473,114 @@ class TestEffectTSExtraction:
         assert "MAX_RETRIES" not in names
         assert "DEFAULT_TIMEOUT" not in names
         assert "CONFIG" not in names
+
+
+# ── Relative-Import Coverage Mapping ───────────────────────────────
+
+
+def _covered_names(analysis):
+    return {e.function_name for e in analysis.coverage.entries if e.covered}
+
+
+class TestRelativeImportCoverage:
+    def test_sibling_relative_import_marks_coverage(self, tmp_path):
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "app.ts").write_text("export function run(): void {}\n")
+        (tmp_path / "src" / "app.test.ts").write_text(textwrap.dedent("""\
+            import { run } from "./app.ts"
+            import { describe, it, expect } from "vitest"
+
+            describe("app", () => {
+              it("runs", () => {
+                expect(run()).toBeUndefined()
+              })
+            })
+        """))
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "run" in _covered_names(analysis)
+
+    def test_extensionless_relative_import_marks_coverage(self, tmp_path):
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "app.ts").write_text("export function run(): void {}\n")
+        (tmp_path / "src" / "app.test.ts").write_text(
+            'import { run } from "./app"\nit("runs", () => { run() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "run" in _covered_names(analysis)
+
+    def test_parent_relative_import_from_tests_subdir(self, tmp_path):
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "__tests__").mkdir()
+        (tmp_path / "src" / "handler.ts").write_text(
+            "export function handle(): void {}\n"
+        )
+        (tmp_path / "src" / "__tests__" / "handler.unit.test.ts").write_text(
+            'import { handle } from "../handler.ts"\nit("handles", () => { handle() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "handle" in _covered_names(analysis)
+
+    def test_deep_parent_relative_import(self, tmp_path):
+        (tmp_path / "src" / "a" / "b" / "__tests__").mkdir(parents=True)
+        (tmp_path / "src" / "util.ts").write_text("export function helper(): void {}\n")
+        (tmp_path / "src" / "a" / "b" / "__tests__" / "x.unit.test.ts").write_text(
+            'import { helper } from "../../../util.ts"\nit("x", () => { helper() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "helper" in _covered_names(analysis)
+
+    def test_unreferenced_function_stays_uncovered(self, tmp_path):
+        """Importing the module is not enough — the name must be referenced."""
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "app.ts").write_text(textwrap.dedent("""\
+            export function run(): void {}
+            export function neverCalled(): void {}
+        """))
+        (tmp_path / "src" / "app.test.ts").write_text(
+            'import { run } from "./app.ts"\nit("runs", () => { run() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        covered = _covered_names(analysis)
+        assert "run" in covered
+        assert "neverCalled" not in covered
+
+    def test_relative_import_to_missing_module_is_not_coverage(self, tmp_path):
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "app.ts").write_text("export function run(): void {}\n")
+        (tmp_path / "src" / "other.test.ts").write_text(
+            'import { run } from "./nowhere.ts"\nit("x", () => { run() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "run" not in _covered_names(analysis)
+
+    def test_relative_import_does_not_escape_project_root(self, tmp_path):
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "app.ts").write_text("export function run(): void {}\n")
+        (tmp_path / "src" / "app.test.ts").write_text(
+            'import { run } from "../../../../etc/app.ts"\nit("x", () => { run() })\n'
+        )
+
+        analysis = analyze_codebase(tmp_path, language="typescript")
+        assert "run" not in _covered_names(analysis)
+
+    def test_python_dotted_imports_still_map(self):
+        """Regression guard: relative resolution must not disturb Python mapping."""
+        source = SourceFile(path="pkg/auth.py", language="python")
+        source.functions = [
+            ExtractedFunction(name="login", signature="login()", line_number=1)
+        ]
+        test = TestFile(path="tests/test_auth.py", language="python")
+        test.imported_modules = ["pkg.auth"]
+        test.referenced_names = ["login"]
+
+        cov = map_test_coverage([source], [test])
+        assert [e.covered for e in cov.entries] == [True]
 
 
 # ── Smoke Test Generation ─────────────────────────────────────────
