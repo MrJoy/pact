@@ -372,6 +372,19 @@ _TS_IMPORT_FROM_RE = re.compile(
     re.MULTILINE,
 )
 
+# Dynamic import: `import("spec")`, with or without `await`.
+#
+# The lookbehind rejects anything where `import` is only the tail of a longer
+# identifier (`notimport(...)`) or a member access (`loader.import(...)`), and
+# `\b` rejects the leading-substring case (`importAll(...)`).
+#
+# Only quoted string literals are captured. A computed specifier such as
+# `import(`./${name}.ts`)` is not statically resolvable, so it is skipped rather
+# than recorded as a junk module path.
+_TS_DYNAMIC_IMPORT_RE = re.compile(
+    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]""",
+)
+
 # Import names: import { foo, bar } from '...'
 _TS_IMPORT_NAMES_RE = re.compile(
     r"""import\s*\{([^}]+)\}\s*from""",
@@ -809,11 +822,19 @@ def _extract_ts_test_function_names(source: str) -> list[str]:
 
 
 def _extract_ts_imports(source: str) -> list[str]:
-    """Extract imported module paths from TypeScript source."""
-    modules: list[str] = []
-    for m in _TS_IMPORT_FROM_RE.finditer(source):
-        modules.append(m.group(1))
-    return modules
+    """Extract imported module paths from TypeScript source.
+
+    Covers static `import ... from "spec"` and dynamic `import("spec")`.
+    Results are returned in source order so a reader of `SourceFile.imports`
+    sees the file's dependencies in the order they appear, whichever form each
+    one takes.
+    """
+    matches = [
+        *_TS_IMPORT_FROM_RE.finditer(source),
+        *_TS_DYNAMIC_IMPORT_RE.finditer(source),
+    ]
+    matches.sort(key=lambda m: m.start())
+    return [m.group(1) for m in matches]
 
 
 def _extract_ts_referenced_names(source: str) -> list[str]:

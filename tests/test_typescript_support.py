@@ -7,6 +7,7 @@ import textwrap
 import pytest
 
 from pact.codebase_analyzer import (
+    _extract_ts_imports,
     analyze_codebase,
     discover_source_files,
     discover_tests,
@@ -74,6 +75,101 @@ class TestTypeScriptFileDiscovery:
         assert "src/foo.test.ts" in paths
         assert "src/bar.spec.ts" in paths
         assert "__tests__/baz.ts" in paths
+
+
+# ── Import Extraction ──────────────────────────────────────────────
+
+
+class TestTypeScriptImportExtraction:
+    def test_static_named_import_is_unchanged(self):
+        source = 'import { foo } from "./foo.ts"\n'
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_static_default_and_namespace_imports_are_unchanged(self):
+        source = textwrap.dedent("""\
+            import def from "./def.ts"
+            import * as ns from "./ns.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./def.ts", "./ns.ts"]
+
+    def test_bare_dynamic_import(self):
+        source = 'import("./x.ts")\n'
+        assert _extract_ts_imports(source) == ["./x.ts"]
+
+    def test_awaited_dynamic_import(self):
+        source = 'await import("./x.ts")\n'
+        assert _extract_ts_imports(source) == ["./x.ts"]
+
+    def test_dynamic_import_with_destructuring_assignment(self):
+        source = 'const { filteredLogger } = await import("../../rpc/middleware.ts")\n'
+        assert _extract_ts_imports(source) == ["../../rpc/middleware.ts"]
+
+    def test_dynamic_import_single_quotes(self):
+        source = "await import('./x.ts')\n"
+        assert _extract_ts_imports(source) == ["./x.ts"]
+
+    def test_dynamic_import_inside_function_body(self):
+        source = textwrap.dedent("""\
+            export async function boot() {
+              const mod = await import("./boot-impl.ts")
+              return mod.default
+            }
+        """)
+        assert _extract_ts_imports(source) == ["./boot-impl.ts"]
+
+    def test_dynamic_import_spanning_lines(self):
+        source = textwrap.dedent("""\
+            const mod = await import(
+              "./wrapped.ts",
+            )
+        """)
+        assert _extract_ts_imports(source) == ["./wrapped.ts"]
+
+    def test_dynamic_and_static_imports_are_returned_in_source_order(self):
+        source = textwrap.dedent("""\
+            import { Effect } from "effect"
+
+            export async function boot() {
+              const a = await import("./a.ts")
+              const b = await import("./b.ts")
+              return [a, b]
+            }
+
+            import { last } from "./last.ts"
+        """)
+        assert _extract_ts_imports(source) == [
+            "effect",
+            "./a.ts",
+            "./b.ts",
+            "./last.ts",
+        ]
+
+    def test_template_literal_specifier_is_skipped(self):
+        """A computed specifier is not statically resolvable — emit nothing, not junk."""
+        source = textwrap.dedent("""\
+            const name = "alpha"
+            const mod = await import(`./${name}.ts`)
+        """)
+        assert _extract_ts_imports(source) == []
+
+    def test_template_literal_specifier_does_not_hide_neighbours(self):
+        source = textwrap.dedent("""\
+            const mod = await import(`./${name}.ts`)
+            const other = await import("./other.ts")
+        """)
+        assert _extract_ts_imports(source) == ["./other.ts"]
+
+    def test_identifier_ending_in_import_is_not_a_dynamic_import(self):
+        source = 'notimport("./x.ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_method_named_import_is_not_a_dynamic_import(self):
+        source = 'loader.import("./x.ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_importsomething_call_is_not_a_dynamic_import(self):
+        source = 'importAll("./x.ts")\n'
+        assert _extract_ts_imports(source) == []
 
 
 # ── Function Extraction: Standard TypeScript ────────────────────────
