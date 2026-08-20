@@ -1523,10 +1523,21 @@ def _module_name(path: str) -> str:
     return module
 
 
+def _posix_path(path: str) -> str:
+    """Rewrite a project-relative path with forward slashes.
+
+    ``discover_source_files`` builds paths with ``Path.relative_to``, which uses
+    the host separator, so on Windows a path arrives here with backslashes. An
+    import specifier is POSIX in every source file on every host, so the two
+    have to be reconciled before they can be joined.
+    """
+    return path.replace("\\", "/")
+
+
 def _resolve_relative_specifier(
     importer_path: str,
     specifier: str,
-    known_paths: set[str],
+    known_paths_by_posix: dict[str, str],
 ) -> str | None:
     """Resolve a relative import specifier to a known project-relative path.
 
@@ -1534,24 +1545,31 @@ def _resolve_relative_specifier(
     name -- ``import { foo } from "../foo.ts"``. Resolving that against the
     importing file's directory is the only way to know which module it names.
 
-    Returns the matching entry of ``known_paths``, or None when the specifier
-    names nothing in the project (a missing file, or a path that climbs out of
-    the project root).
+    ``known_paths_by_posix`` maps each source path, rewritten POSIX-style, to
+    the path as the project recorded it. Building it once at the call site keeps
+    the per-import cost constant, and returning the recorded spelling is what
+    lets ``_module_name`` match — a file keyed under one spelling cannot be
+    found by another.
+
+    Returns None when the specifier names nothing in the project (a missing
+    file, or a path that climbs out of the project root).
     """
     if not specifier.startswith("."):
         return None
 
-    base = posixpath.dirname(importer_path)
+    base = posixpath.dirname(_posix_path(importer_path))
     joined = posixpath.normpath(posixpath.join(base, specifier))
 
-    # normpath leaves a leading ".." when the specifier climbs past the root.
-    if joined.startswith("..") or posixpath.isabs(joined):
+    # normpath leaves a leading ".." segment when the specifier climbs past the
+    # root. Matching the segment, not the prefix, keeps a file whose name simply
+    # begins with dots (``..rc.ts``) from being read as an escape.
+    if joined == ".." or joined.startswith("../") or posixpath.isabs(joined):
         return None
 
     for suffix in _SPECIFIER_SUFFIXES:
-        candidate = joined + suffix
-        if candidate in known_paths:
-            return candidate
+        hit = known_paths_by_posix.get(joined + suffix)
+        if hit is not None:
+            return hit
 
     return None
 
@@ -1571,7 +1589,7 @@ def map_test_coverage(
     func_to_file: dict[str, str] = {}
     func_to_complexity: dict[str, int] = {}
 
-    known_paths = {sf.path for sf in source_files}
+    known_paths_by_posix = {_posix_path(sf.path): sf.path for sf in source_files}
 
     for sf in source_files:
         module = _module_name(sf.path)
@@ -1594,7 +1612,9 @@ def map_test_coverage(
             # specifier that resolves to nothing names nothing in the project,
             # so it must not fall through to the dotted-name heuristic below.
             if imp.startswith("."):
-                resolved = _resolve_relative_specifier(tf.path, imp, known_paths)
+                resolved = _resolve_relative_specifier(
+                    tf.path, imp, known_paths_by_posix
+                )
                 if resolved is not None:
                     imported_source_modules.add(_module_name(resolved))
                 continue
