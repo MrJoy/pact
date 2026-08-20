@@ -594,7 +594,10 @@ def _mask_ts_literals(source: str) -> str:
     Returns a string the same length as ``source`` in which the interior of
     every line comment, block comment, single/double-quoted string, and
     template literal is replaced by spaces. Newlines are kept so line numbers
-    still line up, and delimiters are kept so bracket matching is unaffected.
+    still line up, and string and template delimiters are kept so a quote still
+    reads as a quote. A comment is blanked delimiters and all -- nothing needs
+    to find one in the mask, and leaving `/*` behind would put brackets' worth
+    of punctuation into what is supposed to be empty space.
 
     Scanning the masked copy means keywords and operators appearing inside
     strings and comments cannot be mistaken for code.
@@ -674,20 +677,62 @@ def _ts_block_body(masked: str, search_from: int) -> str:
     return masked[brace : close + 1] if close > 0 else masked[brace:]
 
 
-def _ts_expression_body(masked: str, start: int) -> str:
-    """Expression body of a concise arrow, up to the end of the statement."""
+def _ts_line_indent(masked: str, index: int) -> int:
+    """Indentation, in characters, of the line containing ``index``."""
+    line_start = masked.rfind("\n", 0, index) + 1
+    return len(masked[line_start:]) - len(masked[line_start:].lstrip(" \t"))
+
+
+def _ts_expression_body(masked: str, start: int, base_indent: int) -> str:
+    """Expression body of a concise arrow, up to the end of the statement.
+
+    A formatter routinely puts the body on its own line, and wraps a long one
+    over several:
+
+        const pick = (fallback: () => number): number =>
+          cached
+            ?? fallback()
+
+    So a newline cannot end the body on its own. It ends the body only when the
+    next non-blank line is indented no further than the line the arrow is on,
+    which is where a formatter puts the next statement. ``base_indent`` is that
+    line's indentation.
+    """
     depth = 0
-    for j in range(start, len(masked)):
+    j = start
+    n = len(masked)
+
+    while j < n and masked[j] in " \t\n":
+        j += 1
+    begin = j
+
+    while j < n:
         char = masked[j]
         if char in "([{":
             depth += 1
         elif char in ")]}":
             if depth == 0:
-                return masked[start:j]
+                return masked[begin:j]
             depth -= 1
-        elif depth == 0 and (char == ";" or char == "\n"):
-            return masked[start:j]
-    return masked[start:]
+        elif depth == 0 and char == ";":
+            return masked[begin:j]
+        elif depth == 0 and char == "\n":
+            probe = j + 1
+            while probe < n:
+                line_end = masked.find("\n", probe)
+                if line_end == -1:
+                    line_end = n
+                line = masked[probe:line_end]
+                if line.strip():
+                    if _ts_line_indent(masked, probe) <= base_indent:
+                        return masked[begin:j]
+                    break
+                probe = line_end + 1
+            else:
+                return masked[begin:j]
+        j += 1
+
+    return masked[begin:]
 
 
 def _compute_ts_complexity(body: str) -> int:
@@ -798,11 +843,30 @@ def extract_functions_typescript(
             is_async = stripped.startswith("async")
             # Find the opening paren
             paren_idx = stripped.find("(")
+            arrow_search_from = eq_pos
             if paren_idx >= 0:
                 abs_paren = eq_pos + 1 + (len(after_eq) - len(stripped)) + paren_idx
                 params = _extract_ts_params(source, abs_paren)
                 if not return_type:
                     return_type = _extract_ts_return_type_after_paren(source, abs_paren)
+                # The arrow token comes after the parameter list closes. A
+                # function-typed parameter (`cb: () => void`) or an arrow
+                # default (`cb = () => 1`) puts a `=>` inside the list, and
+                # taking the first one would scope the body to the annotation.
+                #
+                # Only when what sits between the two reads as a return-type
+                # annotation, though. An IIFE-assigned const --
+                # `const x = (() => { ... })()` -- puts its own parens where a
+                # parameter list would be, and the next `=>` after them belongs
+                # to some later declaration entirely. Anything structural in the
+                # gap means this paren was not a parameter list, so the first
+                # `=>` after the assignment is the right one after all.
+                params_close = _match_bracket(masked, abs_paren)
+                if params_close > 0:
+                    candidate = masked.find("=>", params_close)
+                    gap = masked[params_close + 1 : candidate]
+                    if candidate >= 0 and not any(c in gap for c in "{};()="):
+                        arrow_search_from = params_close
             else:
                 # Single-param arrow without parens: `const f = x => ...`
                 single_match = re.match(r"\s*(?:async\s+)?(\w+)\s*=>", after_eq)
@@ -812,7 +876,7 @@ def extract_functions_typescript(
             # The body is whatever follows `=>`: either a block or a single
             # expression. Search the mask so a `=>` inside a default-parameter
             # string cannot be mistaken for the arrow.
-            arrow = masked.find("=>", eq_pos)
+            arrow = masked.find("=>", arrow_search_from)
             if arrow >= 0:
                 after_arrow = arrow + 2
                 rest = masked[after_arrow:]
@@ -820,7 +884,9 @@ def extract_functions_typescript(
                 if rest.lstrip().startswith("{"):
                     body = _ts_block_body(masked, after_arrow + lead)
                 else:
-                    body = _ts_expression_body(masked, after_arrow)
+                    body = _ts_expression_body(
+                        masked, after_arrow, _ts_line_indent(masked, arrow)
+                    )
         elif kind in ("effect_gen", "pipe", "layer", "schema"):
             decorators.append(kind)
             # `Effect.gen(function*() { ... })`, `pipe(a, b)`, `Layer.effect(...)`,
