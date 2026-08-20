@@ -366,9 +366,23 @@ _TS_TEST_FN_RE = re.compile(
     r"""(?:it|test)\s*\(\s*['"`](.+?)['"`]""",
 )
 
-# Import from patterns
+# Import-from patterns.
+#
+# Matches both `import ... from "spec"` and re-exporting `export ... from "spec"`,
+# and spans the multi-line clause style that formatters emit:
+#
+#     import {
+#       alpha,
+#       beta,
+#     } from "./mod.ts"
+#
+# The clause between the keyword and `from` is restricted to characters that can
+# legally appear in an import clause, and a lookahead stops the lazy match at the
+# next statement so a bodiless `export { x }` cannot swallow the import after it.
 _TS_IMPORT_FROM_RE = re.compile(
-    r"""^[ \t]*import\s+.*?from\s+['"]([^'"]+)['"]""",
+    r"""^[ \t]*(?:import|export)\s"""
+    r"""(?:(?!^[ \t]*(?:import|export)\b)[\w\s{},*$])*?"""
+    r"""\bfrom\s*['"]([^'"]+)['"]""",
     re.MULTILINE,
 )
 
