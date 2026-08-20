@@ -7,6 +7,7 @@ import textwrap
 import pytest
 
 from pact.codebase_analyzer import (
+    _extract_ts_imports,
     analyze_codebase,
     discover_source_files,
     discover_tests,
@@ -74,6 +75,82 @@ class TestTypeScriptFileDiscovery:
         assert "src/foo.test.ts" in paths
         assert "src/bar.spec.ts" in paths
         assert "__tests__/baz.ts" in paths
+
+
+# ── Import Extraction ──────────────────────────────────────────────
+
+
+class TestTypeScriptImportExtraction:
+    def test_single_line_named_import(self):
+        source = 'import { foo } from "./foo.ts"\n'
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_multiline_named_import(self):
+        source = textwrap.dedent("""\
+            import {
+              foo,
+              bar,
+            } from "./foo.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_multiline_import_among_single_line_imports(self):
+        source = textwrap.dedent("""\
+            import { Effect } from "effect"
+            import {
+              makeThing,
+              ThingTag,
+            } from "../thing.ts"
+            import { last } from "./last.ts"
+        """)
+        assert _extract_ts_imports(source) == ["effect", "../thing.ts", "./last.ts"]
+
+    def test_multiline_type_only_import(self):
+        source = textwrap.dedent("""\
+            import type {
+              Alpha,
+              Beta,
+            } from "./types.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./types.ts"]
+
+    def test_default_and_namespace_imports(self):
+        source = textwrap.dedent("""\
+            import def from "./def.ts"
+            import * as ns from "./ns.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./def.ts", "./ns.ts"]
+
+    def test_reexport_is_extracted(self):
+        source = 'export { foo } from "./foo.ts"\n'
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_multiline_reexport_barrel(self):
+        source = textwrap.dedent("""\
+            export {
+              alpha,
+              beta,
+            } from "./alpha.ts"
+            export * from "./star.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./alpha.ts", "./star.ts"]
+
+    def test_local_export_does_not_swallow_following_imports(self):
+        """A bodiless `export { x }` must not lazily consume the next statement."""
+        source = textwrap.dedent("""\
+            const foo = 1
+            export { foo }
+            import { bar } from "./bar.ts"
+            import { baz } from "./baz.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./bar.ts", "./baz.ts"]
+
+    def test_local_export_is_not_an_import(self):
+        source = textwrap.dedent("""\
+            const foo = 1
+            export { foo }
+        """)
+        assert _extract_ts_imports(source) == []
 
 
 # ── Function Extraction: Standard TypeScript ────────────────────────
