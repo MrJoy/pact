@@ -341,6 +341,84 @@ class TestTypeScriptImportExtraction:
         source = 'importSomething "./x.ts"\n'
         assert _extract_ts_imports(source) == []
 
+    def test_block_comment_inside_a_single_line_clause(self):
+        source = 'import { foo, /* keep */ bar } from "./m.ts"\n'
+        assert _extract_ts_imports(source) == ["./m.ts"]
+
+    def test_block_comment_between_keyword_and_clause(self):
+        source = 'import /* side note */ { foo } from "./m.ts"\n'
+        assert _extract_ts_imports(source) == ["./m.ts"]
+
+    def test_line_comment_inside_a_multiline_clause(self):
+        source = textwrap.dedent("""\
+            import {
+              alpha,
+              // beta is deprecated
+              gamma,
+            } from "./m.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./m.ts"]
+
+    def test_block_comment_inside_a_multiline_clause(self):
+        source = textwrap.dedent("""\
+            import {
+              alpha, /* keep */
+              gamma,
+            } from "./m.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./m.ts"]
+
+    def test_multiline_block_comment_inside_a_clause(self):
+        source = textwrap.dedent("""\
+            import {
+              alpha,
+              /*
+               * beta is deprecated
+               */
+              gamma,
+            } from "./m.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./m.ts"]
+
+    def test_comment_inside_a_reexport_clause(self):
+        source = 'export { helper /* re-exported */ } from "./helper.ts"\n'
+        assert _extract_ts_imports(source) == ["./helper.ts"]
+
+    def test_from_inside_a_line_comment_is_not_the_specifier(self):
+        """A commented-out specifier must not win over the real one."""
+        source = textwrap.dedent("""\
+            import { foo } // from "./decoy.ts"
+              from "./real.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./real.ts"]
+
+    def test_from_inside_a_block_comment_is_not_the_specifier(self):
+        source = 'import { foo } /* from "./decoy.ts" */ from "./real.ts"\n'
+        assert _extract_ts_imports(source) == ["./real.ts"]
+
+    def test_url_specifier_is_not_read_as_a_comment(self):
+        """The `//` in a Deno URL import sits after `from`, inside the specifier."""
+        source = 'import { assert } from "https://deno.land/std/assert/mod.ts"\n'
+        assert _extract_ts_imports(source) == [
+            "https://deno.land/std/assert/mod.ts"
+        ]
+
+    def test_url_reexport_specifier_is_not_read_as_a_comment(self):
+        source = 'export * from "https://deno.land/std/assert/mod.ts"\n'
+        assert _extract_ts_imports(source) == [
+            "https://deno.land/std/assert/mod.ts"
+        ]
+
+    def test_commented_out_import_line_is_not_extracted(self):
+        """Teaching the clause about comments must not start matching inside one.
+
+        A whole import statement behind `//` is not a dependency. The line
+        anchor already excludes it; this pins that the in-clause comment
+        handling does not accidentally open a door to it.
+        """
+        source = '// import { foo } from "./m.ts"\n'
+        assert _extract_ts_imports(source) == []
+
 
 # ── Function Extraction: Standard TypeScript ────────────────────────
 

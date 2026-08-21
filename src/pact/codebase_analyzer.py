@@ -378,11 +378,26 @@ _TS_TEST_FN_RE = re.compile(
 #     } from "./mod.ts"
 #
 # The clause between the keyword and `from` is restricted to characters that can
-# legally appear in an import clause, and a lookahead stops the lazy match at the
-# next statement so a bodiless `export { x }` cannot swallow the import after it.
+# legally appear in an import clause, plus block and line comments, which both
+# formatters and hand-written code put inside a clause:
+#
+#     import {
+#       alpha,
+#       // beta is deprecated
+#       gamma,
+#     } from "./mod.ts"
+#
+# Each comment is matched in an atomic group so the engine cannot backtrack into
+# its interior. Without that, a commented-out `// from "./decoy.ts"` could be
+# partly consumed and its specifier captured instead of the real one.
+#
+# A lookahead stops the lazy match at the next statement so a bodiless
+# `export { x }` cannot swallow the import after it. The line anchor keeps a
+# fully commented-out import statement out entirely.
 _TS_IMPORT_FROM_RE = re.compile(
     r"""^[ \t]*(?:import|export)\s"""
-    r"""(?:(?!^[ \t]*(?:import|export)\b)[\w\s{},*$])*?"""
+    r"""(?:(?!^[ \t]*(?:import|export)\b)"""
+    r"""(?:(?>/\*[\s\S]*?\*/)|(?>//[^\n]*)|[\w\s{},*$]))*?"""
     r"""\bfrom\s*['"]([^'"]+)['"]""",
     re.MULTILINE,
 )
