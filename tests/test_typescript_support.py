@@ -1175,6 +1175,112 @@ class TestTypeScriptComplexity:
         """)
         assert _complexity_of(source, "UserSchema") == 1
 
+    def test_arrow_with_a_function_typed_parameter(self):
+        """A `=>` in a parameter's type annotation is not the arrow token."""
+        source = textwrap.dedent("""\
+            export const run = (cb: () => void): void => {
+              if (cb) {
+                cb()
+              }
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
+
+    def test_arrow_with_a_function_typed_parameter_and_a_straight_body(self):
+        source = textwrap.dedent("""\
+            export const run = (cb: () => void): void => {
+              cb()
+            }
+        """)
+        assert _complexity_of(source, "run") == 1
+
+    def test_arrow_with_an_arrow_default_parameter(self):
+        source = textwrap.dedent("""\
+            export const run = (cb = () => 1): number => {
+              return cb() || 2
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
+
+    def test_arrow_with_several_function_typed_parameters(self):
+        source = textwrap.dedent("""\
+            export const run = (
+              onOk: (v: number) => void,
+              onErr: (e: Error) => void,
+            ): void => {
+              if (Math.random() > 0.5) {
+                onOk(1)
+              } else {
+                onErr(new Error("x"))
+              }
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
+
+    def test_expression_bodied_arrow_with_a_function_typed_parameter(self):
+        source = textwrap.dedent("""\
+            export const pick = (fallback: () => number): number =>
+              cached ?? fallback()
+        """)
+        assert _complexity_of(source, "pick") == 2
+
+    def test_arrow_with_a_function_valued_return_type(self):
+        source = textwrap.dedent("""\
+            export const make = (): (() => number) => {
+              if (ready) {
+                return () => 1
+              }
+              return () => 0
+            }
+        """)
+        assert _complexity_of(source, "make") == 2
+
+    def test_parenthesised_parameter_default_does_not_end_the_list_early(self):
+        source = textwrap.dedent("""\
+            export const run = (n = (1 + 2)): number => {
+              return n > 0 ? n : 0
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
+
+    def test_plain_arrow_is_unaffected(self):
+        source = textwrap.dedent("""\
+            export const clamp = (n: number): number => {
+              if (n < 0) {
+                return 0
+              }
+              return n
+            }
+        """)
+        assert _complexity_of(source, "clamp") == 2
+
+    def test_unparenthesised_single_param_arrow_is_unaffected(self):
+        source = textwrap.dedent("""\
+            export const clamp = n => n < 0 ? 0 : n
+        """)
+        assert _complexity_of(source, "clamp") == 2
+
+    def test_iife_assigned_const_keeps_its_own_body(self):
+        """An IIFE puts parens where a parameter list would be.
+
+        Looking for the arrow after them would run past the declaration and
+        find one belonging to something else entirely, so the const would take
+        its complexity from unrelated code.
+        """
+        source = textwrap.dedent("""\
+            export const LOOKUP: Readonly<Record<string, string>> = (() => {
+              const out: Record<string, string> = {}
+              for (const [k, v] of Object.entries(RAW)) {
+                if (v !== undefined) out[k] = v
+              }
+              return out
+            })()
+
+            export const other = (x: number): number => x
+        """)
+        assert _complexity_of(source, "LOOKUP") == 3
+        assert _complexity_of(source, "other") == 1
+
 
 # ── Smoke Test Generation ─────────────────────────────────────────
 
