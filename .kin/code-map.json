@@ -8,8 +8,8 @@
       "Sh"
     ],
     "frameworks": [],
-    "analyzedAt": "2026-06-04T13:12:56-05:00",
-    "gitCommitHash": "0f9344d716657006d17acaf1c4ca0a459f97f70d"
+    "analyzedAt": "2026-08-20T19:25:11-05:00",
+    "gitCommitHash": "af10b8ee821c834b4105dba9f992734c23d30241"
   },
   "nodes": [
     {
@@ -91,6 +91,142 @@
         "python"
       ],
       "complexity": 14,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-sym-pact-1437b0b78d13",
+      "type": "class",
+      "name": "ResolvedPath",
+      "filePath": "src/pact/agent.py",
+      "summary": "class ResolvedPath (src/pact/agent.py:86)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-30695b08faa6",
+      "type": "class",
+      "name": "OpenAIRequestPlan",
+      "filePath": "src/pact/agent.py",
+      "summary": "class OpenAIRequestPlan (src/pact/agent.py:115)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-9082d702c7c0",
+      "type": "class",
+      "name": "AgentResult",
+      "filePath": "src/pact/agent.py",
+      "summary": "class AgentResult (src/pact/agent.py:92)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-c9482713a356",
+      "type": "class",
+      "name": "ContextFile",
+      "filePath": "src/pact/agent.py",
+      "summary": "class ContextFile (src/pact/agent.py:107)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-mod-pact-fd2822799ad2",
+      "type": "file",
+      "name": "src/pact/agent.py",
+      "filePath": "src/pact/agent.py",
+      "summary": "Language: Python | Path: src/pact/agent.py | ~1514 lines ## Classes - AgentResult",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 53,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-mod-pact-ecbc7c3cfbb3",
+      "type": "file",
+      "name": "src/pact/agents/__init__.py",
+      "filePath": "src/pact/agents/__init__.py",
+      "summary": "Language: Python | Path: src/pact/agents/__init__.py | ~1 lines",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-sym-pact-7a9434f30997",
+      "type": "class",
+      "name": "AgentBase",
+      "filePath": "src/pact/agents/base.py",
+      "summary": "class AgentBase (src/pact/agents/base.py:17) ## Methods - assess( self, schema: type[T], prompt: str, system: str, max_tokens: int = 32768, ) -> tuple[T,int,int]",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 6,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-mod-pact-66e2260b74dc",
+      "type": "file",
+      "name": "src/pact/agents/base.py",
+      "filePath": "src/pact/agents/base.py",
+      "summary": "Language: Python | Path: src/pact/agents/base.py | ~97 lines ## Classes - AgentBase",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -765,12 +901,12 @@
       "type": "file",
       "name": "src/pact/certification.py",
       "filePath": "src/pact/certification.py",
-      "summary": "Language: Python | Path: src/pact/certification.py | ~102 lines ## Functions - certify(project: ProjectManager) -> CertificationArtifact",
+      "summary": "Language: Python | Path: src/pact/certification.py | ~279 lines ## Functions - certify(project: ProjectManager) -> CertificationArtifact",
       "tags": [
         "code",
         "python"
       ],
-      "complexity": 5,
+      "complexity": 6,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -816,12 +952,12 @@
       "type": "file",
       "name": "src/pact/cli.py",
       "filePath": "src/pact/cli.py",
-      "summary": "Language: Python | Path: src/pact/cli.py | ~3018 lines ## Functions - cmd_adopt(args: argparse.Namespace) -> None",
+      "summary": "Language: Python | Path: src/pact/cli.py | ~3123 lines ## Functions - cmd_adopt(args: argparse.Namespace) -> None",
       "tags": [
         "code",
         "python"
       ],
-      "complexity": 56,
+      "complexity": 57,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -833,12 +969,12 @@
       "type": "file",
       "name": "src/pact/codebase_analyzer.py",
       "filePath": "src/pact/codebase_analyzer.py",
-      "summary": "Language: Python | Path: src/pact/codebase_analyzer.py | ~1720 lines ## Functions - analyze_codebase( root: str | Path, language: str = \"python\", *, include: list[str] | None = None, exclude: list[str] | None = None, ) -> CodebaseAnalysis",
+      "summary": "Language: Python | Path: src/pact/codebase_analyzer.py | ~2153 lines ## Functions - analyze_codebase( root: str | Path, language: str = \"python\", *, include: list[str] | None = None, exclude: list[str] | None = None, ) -> CodebaseAnalysis",
       "tags": [
         "code",
         "python"
       ],
-      "complexity": 38,
+      "complexity": 47,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -1468,6 +1604,23 @@
         "python"
       ],
       "complexity": 20,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-mod-pact-cf360a502c2f",
+      "type": "file",
+      "name": "src/pact/human/__init__.py",
+      "filePath": "src/pact/human/__init__.py",
+      "summary": "Language: Python | Path: src/pact/human/__init__.py | ~1 lines",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -2329,7 +2482,7 @@
       "type": "class",
       "name": "TestCase",
       "filePath": "src/pact/schemas.py",
-      "summary": "class TestCase(BaseModel) (src/pact/schemas.py:256)",
+      "summary": "class TestCase(BaseModel) (src/pact/schemas.py:258)",
       "tags": [
         "code",
         "python"
@@ -2380,7 +2533,7 @@
       "type": "class",
       "name": "SpecAuditResult",
       "filePath": "src/pact/schemas.py",
-      "summary": "class SpecAuditResult(BaseModel) (src/pact/schemas.py:786)",
+      "summary": "class SpecAuditResult(BaseModel) (src/pact/schemas.py:789)",
       "tags": [
         "code",
         "python"
@@ -2410,11 +2563,45 @@
       }
     },
     {
+      "id": "code-sym-pact-4ad238097833",
+      "type": "class",
+      "name": "TypeSpec",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class TypeSpec(BaseModel) (src/pact/schemas.py:51)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
       "id": "code-sym-pact-5532f17920b6",
       "type": "class",
       "name": "QuestionType",
       "filePath": "src/pact/schemas.py",
       "summary": "class QuestionType(StrEnum) (src/pact/schemas.py:423)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-593ef12e4eff",
+      "type": "class",
+      "name": "TypeRegistry",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class TypeRegistry(BaseModel) (src/pact/schemas.py:63) ## Methods - render_for_prompt(self) -> str",
       "tags": [
         "code",
         "python"
@@ -2750,6 +2937,23 @@
       }
     },
     {
+      "id": "code-sym-pact-bf68febb818b",
+      "type": "class",
+      "name": "TestFailure",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class TestFailure(BaseModel) (src/pact/schemas.py:357)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
       "id": "code-sym-pact-c08e780b0988",
       "type": "class",
       "name": "EngineeringDecision",
@@ -2835,6 +3039,23 @@
       }
     },
     {
+      "id": "code-sym-pact-de8f6905aff8",
+      "type": "class",
+      "name": "TraceDiagnosis",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class TraceDiagnosis(BaseModel) (src/pact/schemas.py:639)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
       "id": "code-sym-pact-df9b164f0c11",
       "type": "class",
       "name": "LearningEntry",
@@ -2903,6 +3124,40 @@
       }
     },
     {
+      "id": "code-sym-pact-f4d5f7123208",
+      "type": "class",
+      "name": "ValidatorSpec",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class ValidatorSpec(BaseModel) (src/pact/schemas.py:24)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-f816368a850a",
+      "type": "class",
+      "name": "TestResults",
+      "filePath": "src/pact/schemas.py",
+      "summary": "class TestResults(BaseModel) (src/pact/schemas.py:367) ## Methods - all_passed(self) -> bool",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
       "id": "code-sym-pact-f9e26a71f864",
       "type": "class",
       "name": "Contingency",
@@ -2924,7 +3179,7 @@
       "type": "file",
       "name": "src/pact/schemas.py",
       "filePath": "src/pact/schemas.py",
-      "summary": "Language: Python | Path: src/pact/schemas.py | ~832 lines ## Classes - AnswerSource(StrEnum)",
+      "summary": "Language: Python | Path: src/pact/schemas.py | ~834 lines ## Classes - AnswerSource(StrEnum)",
       "tags": [
         "code",
         "python"
@@ -3158,23 +3413,6 @@
       }
     },
     {
-      "id": "code-sym-pact-70324ecb42c5",
-      "type": "class",
-      "name": "ArchitectureLaw",
-      "filePath": "src/pact/schemas_production.py",
-      "summary": "class ArchitectureLaw(BaseModel) (src/pact/schemas_production.py:79)",
-      "tags": [
-        "code",
-        "python"
-      ],
-      "complexity": 1,
-      "languageNotes": {
-        "language": "Python",
-        "kindexType": "concept",
-        "toolTier": ""
-      }
-    },
-    {
       "id": "code-sym-pact-7c80bcda6b28",
       "type": "class",
       "name": "StaticCheckResult",
@@ -3264,7 +3502,7 @@
       "type": "class",
       "name": "ArchitectureLaws",
       "filePath": "src/pact/schemas_production.py",
-      "summary": "class ArchitectureLaws(BaseModel) (src/pact/schemas_production.py:88)",
+      "summary": "class ArchitectureLaws(BaseModel) (src/pact/schemas_production.py:88) [Merged from: ArchitectureLaw] class ArchitectureLaw(BaseModel) (src/pact/schemas_production.py:79)",
       "tags": [
         "code",
         "python"
@@ -3362,6 +3600,227 @@
       }
     },
     {
+      "id": "code-sym-pact-14ab4f915990",
+      "type": "class",
+      "name": "ShapingPitch",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class ShapingPitch(BaseModel) (src/pact/schemas_shaping.py:100)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-3428b107a229",
+      "type": "class",
+      "name": "Place",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class Place(BaseModel) (src/pact/schemas_shaping.py:53)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-40d54e89c9cf",
+      "type": "class",
+      "name": "ShapingStatus",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class ShapingStatus(StrEnum) (src/pact/schemas_shaping.py:27)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-7a04607f3dba",
+      "type": "class",
+      "name": "Affordance",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class Affordance(BaseModel) (src/pact/schemas_shaping.py:46)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-83abe8516ab8",
+      "type": "class",
+      "name": "RabbitHoleStatus",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class RabbitHoleStatus(StrEnum) (src/pact/schemas_shaping.py:36)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-a2281384a9dc",
+      "type": "class",
+      "name": "FitCheck",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class FitCheck(BaseModel) (src/pact/schemas_shaping.py:92)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-b534acef38f3",
+      "type": "class",
+      "name": "RegionMap",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class RegionMap(BaseModel) (src/pact/schemas_shaping.py:85)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-bde0ac749c65",
+      "type": "class",
+      "name": "Appetite",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class Appetite(StrEnum) (src/pact/schemas_shaping.py:21)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-be371ed97dd7",
+      "type": "class",
+      "name": "Breadboard",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class Breadboard(BaseModel) (src/pact/schemas_shaping.py:69)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-dfcca6bab1e2",
+      "type": "class",
+      "name": "Connection",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class Connection(BaseModel) (src/pact/schemas_shaping.py:60)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-faa1ef0a0300",
+      "type": "class",
+      "name": "RabbitHole",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "class RabbitHole(BaseModel) (src/pact/schemas_shaping.py:77)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-mod-pact-320ca6af9d2e",
+      "type": "file",
+      "name": "src/pact/schemas_shaping.py",
+      "filePath": "src/pact/schemas_shaping.py",
+      "summary": "Language: Python | Path: src/pact/schemas_shaping.py | ~113 lines ## Classes - Affordance(BaseModel)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 11,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-sym-pact-0fd2b7fe54ff",
+      "type": "class",
+      "name": "TaskStatus",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class TaskStatus(StrEnum) (src/pact/schemas_tasks.py:29)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
       "id": "code-sym-pact-33550f0136d3",
       "type": "class",
       "name": "FindingCategory",
@@ -3393,6 +3852,193 @@
         "language": "Python",
         "kindexType": "concept",
         "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-8751a8485cfe",
+      "type": "class",
+      "name": "ChecklistCategory",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class ChecklistCategory(StrEnum) (src/pact/schemas_tasks.py:178)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-8f7003217ad3",
+      "type": "class",
+      "name": "AnalysisReport",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class AnalysisReport(BaseModel) (src/pact/schemas_tasks.py:157) ## Methods - errors(self) -> list[AnalysisFinding]",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 2,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-908c77047d9e",
+      "type": "class",
+      "name": "TaskPhase",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class TaskPhase(StrEnum) (src/pact/schemas_tasks.py:20)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-92bf0d801eef",
+      "type": "class",
+      "name": "PhaseCheckpoint",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class PhaseCheckpoint(BaseModel) (src/pact/schemas_tasks.py:68)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-a892149525d3",
+      "type": "class",
+      "name": "TaskItem",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class TaskItem(BaseModel) (src/pact/schemas_tasks.py:55)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-c92478e57342",
+      "type": "class",
+      "name": "AnalysisFinding",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class AnalysisFinding(BaseModel) (src/pact/schemas_tasks.py:146)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-ca90be898752",
+      "type": "class",
+      "name": "RequirementsChecklist",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class RequirementsChecklist(BaseModel) (src/pact/schemas_tasks.py:201) ## Methods - satisfied_count(self) -> int",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 2,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-d1f35c1bb69a",
+      "type": "class",
+      "name": "TaskCategory",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class TaskCategory(StrEnum) (src/pact/schemas_tasks.py:38)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-de54c8fff662",
+      "type": "class",
+      "name": "TaskList",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class TaskList(BaseModel) (src/pact/schemas_tasks.py:75) ## Methods - completed(self) -> int",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 7,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-sym-pact-f802b76d3b8b",
+      "type": "class",
+      "name": "ChecklistItem",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "class ChecklistItem(BaseModel) (src/pact/schemas_tasks.py:191)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "concept",
+        "toolTier": ""
+      }
+    },
+    {
+      "id": "code-mod-pact-66ddcd71dea3",
+      "type": "file",
+      "name": "src/pact/schemas_tasks.py",
+      "filePath": "src/pact/schemas_tasks.py",
+      "summary": "Language: Python | Path: src/pact/schemas_tasks.py | ~213 lines ## Classes - AnalysisFinding(BaseModel)",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 13,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
       }
     },
     {
@@ -3889,11 +4535,45 @@
       }
     },
     {
+      "id": "code-mod-pact-5a4ae69de2c4",
+      "type": "file",
+      "name": "src/pact/vendor/__init__.py",
+      "filePath": "src/pact/vendor/__init__.py",
+      "summary": "Language: Python | Path: src/pact/vendor/__init__.py | ~1 lines",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
       "id": "code-mod-pact-454bad6960d3",
       "type": "file",
       "name": "src/pact/vendor/simulacrum/__init__.py",
       "filePath": "src/pact/vendor/simulacrum/__init__.py",
       "summary": "Language: Python | Path: src/pact/vendor/simulacrum/__init__.py | ~9 lines",
+      "tags": [
+        "code",
+        "python"
+      ],
+      "complexity": 1,
+      "languageNotes": {
+        "language": "Python",
+        "kindexType": "artifact",
+        "toolTier": "C"
+      }
+    },
+    {
+      "id": "code-mod-pact-99d0e990e6c0",
+      "type": "file",
+      "name": "src/pact/vendor/simulacrum/__main__.py",
+      "filePath": "src/pact/vendor/simulacrum/__main__.py",
+      "summary": "Language: Python | Path: src/pact/vendor/simulacrum/__main__.py | ~7 lines",
       "tags": [
         "code",
         "python"
@@ -4076,39 +4756,60 @@
       "weight": 0.5
     },
     {
+      "source": "code-mod-pact-b9a167a1b0af",
+      "target": "code-sym-pact-c340d6c50993",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-mod-pact-fd2822799ad2",
+      "target": "code-mod-pact-b4ff502a3a2a",
+      "type": "depends_on",
+      "direction": "outbound",
+      "weight": 0.5
+    },
+    {
       "source": "code-sym-pact-0502e6fd4711",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-05eab30f0121",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-084be8bdcb87",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-08a7a2f07e78",
       "target": "code-mod-pact-c333917ce01b",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-0fd2b7fe54ff",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-106eaf2b47ec",
       "target": "code-mod-pact-739b45139017",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-140d3d2f24e7",
@@ -4118,74 +4819,88 @@
       "weight": 0.6
     },
     {
+      "source": "code-sym-pact-1437b0b78d13",
+      "target": "code-mod-pact-fd2822799ad2",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.6
+    },
+    {
+      "source": "code-sym-pact-14ab4f915990",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
       "source": "code-sym-pact-14ef01b21740",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-160bcf56df37",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-17aa04e07cfa",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-1954aacc337b",
       "target": "code-mod-pact-387b4f2559f5",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-19bbb0e2d226",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-1aaff9167b50",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-1d7d2fd23613",
       "target": "code-mod-pact-835ac19c0cbc",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-1d9b61d9a143",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-1fb1baf11477",
       "target": "code-mod-pact-d1e8b0edf041",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-22c490f1c79b",
       "target": "code-mod-pact-7fcd80e50780",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-265bc566ef0b",
@@ -4199,7 +4914,7 @@
       "target": "code-mod-pact-73dc8657bc5e",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-28dcac128e35",
@@ -4213,7 +4928,7 @@
       "target": "code-mod-pact-ae33d642e65f",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-2e2685cb307b",
@@ -4227,6 +4942,13 @@
       "target": "code-mod-pact-73dc8657bc5e",
       "type": "contains",
       "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-30695b08faa6",
+      "target": "code-mod-pact-fd2822799ad2",
+      "type": "contains",
+      "direction": "outbound",
       "weight": 0.6
     },
     {
@@ -4237,11 +4959,25 @@
       "weight": 0.6
     },
     {
+      "source": "code-sym-pact-33550f0136d3",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-3428b107a229",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
       "source": "code-sym-pact-350dee66beab",
       "target": "code-mod-pact-739b45139017",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-3674630240e8",
@@ -4262,14 +4998,14 @@
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-3b2bc1822430",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-3b3efd12aef7",
@@ -4283,14 +5019,14 @@
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-3d3f662ba6c8",
       "target": "code-mod-pact-739b45139017",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-3e04594863c6",
@@ -4304,25 +5040,39 @@
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-40b40af3cab5",
       "target": "code-mod-pact-260b565295f1",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-40d54e89c9cf",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-4507c355079b",
       "target": "code-mod-pact-8586214fa668",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-4667e10062cf",
       "target": "code-mod-pact-f6d2d8ca7847",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-4ad238097833",
+      "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
       "weight": 0.6
@@ -4332,35 +5082,35 @@
       "target": "code-mod-pact-8586214fa668",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-4bfdb32872bc",
       "target": "code-mod-pact-739b45139017",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-4d758eb8ff99",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-51d435e61fe7",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-5465cc21f46d",
       "target": "code-mod-pact-739b45139017",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-5532f17920b6",
@@ -4374,11 +5124,18 @@
       "target": "code-mod-pact-c23fabd0f558",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-5637233c31fc",
       "target": "code-mod-pact-f6d2d8ca7847",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-593ef12e4eff",
+      "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
       "weight": 0.6
@@ -4388,7 +5145,7 @@
       "target": "code-mod-pact-fa5d46850460",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-5b25c897c61c",
@@ -4402,7 +5159,7 @@
       "target": "code-mod-pact-e0782a921375",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-5b54917dea87",
@@ -4423,21 +5180,21 @@
       "target": "code-mod-pact-387b4f2559f5",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-64cd711ae8b0",
       "target": "code-mod-pact-6d8e62424eb9",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-66a983e8b8bd",
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-6746962f7365",
@@ -4451,49 +5208,49 @@
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-6ac0ecfd5a53",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-6b1f143a26af",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-6d90d4528416",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-6e633b940a45",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-6f9aa3952e5f",
       "target": "code-mod-pact-033d490ddbba",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
-    },
-    {
-      "source": "code-sym-pact-70324ecb42c5",
-      "target": "code-mod-pact-b9a167a1b0af",
-      "type": "contains",
-      "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-73dd1badbca1",
       "target": "code-mod-pact-894acab7a42b",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-74a320f08c4c",
@@ -4521,105 +5278,154 @@
       "target": "code-mod-pact-8bb87064afa7",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-7a04607f3dba",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-7a9434f30997",
+      "target": "code-mod-pact-66e2260b74dc",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-7abd810622ad",
       "target": "code-mod-pact-6d8e62424eb9",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-7b7369f76eba",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-7c80bcda6b28",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-7d69acc6e926",
       "target": "code-mod-pact-e2a7519a54e6",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-7e351cd86925",
       "target": "code-mod-pact-fa5d46850460",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-810a73198811",
       "target": "code-mod-pact-794dc5b1cccf",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-824a6b39b446",
       "target": "code-mod-pact-4f6b28611ac6",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-83abe8516ab8",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-8468906b161a",
       "target": "code-mod-pact-07b1202ea459",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-872befd793c5",
       "target": "code-mod-pact-ae33d642e65f",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-8751a8485cfe",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-87d54dae2b0a",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-87ed207c5ff7",
       "target": "code-mod-pact-4003bc640e4f",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-88fdd521a984",
       "target": "code-mod-pact-3a4698aea265",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-8a80f763f15d",
       "target": "code-mod-pact-894acab7a42b",
       "type": "contains",
       "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-8f7003217ad3",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-9082d702c7c0",
+      "target": "code-mod-pact-fd2822799ad2",
+      "type": "contains",
+      "direction": "outbound",
       "weight": 0.6
+    },
+    {
+      "source": "code-sym-pact-908c77047d9e",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-90f696ef1a3c",
       "target": "code-mod-pact-e0782a921375",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-923f304dbfb1",
@@ -4633,7 +5439,14 @@
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-92bf0d801eef",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-937db436f675",
@@ -4647,21 +5460,21 @@
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-978f435fff15",
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-97e85d0d6c48",
       "target": "code-mod-pact-caa9e7a3f6c2",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-9899ce68ac02",
@@ -4675,14 +5488,14 @@
       "target": "code-mod-pact-dbef1f35a21a",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-99fc8a2e7c33",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-9c9a8b4a2bf8",
@@ -4703,7 +5516,7 @@
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-9d0f3c0682f0",
@@ -4724,14 +5537,21 @@
       "target": "code-mod-pact-2ad6f90e7afc",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-a2281384a9dc",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-a364e120b774",
       "target": "code-mod-pact-8586214fa668",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-a408b2322123",
@@ -4759,7 +5579,14 @@
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-a892149525d3",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-aaf475b7d168",
@@ -4773,42 +5600,49 @@
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-aeef71a5bc26",
       "target": "code-mod-pact-d231cd5553be",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-b1a05df1c9aa",
       "target": "code-mod-pact-8bb87064afa7",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-b3086722b876",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-b36ed3b88917",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-b534acef38f3",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-b8142a736db6",
       "target": "code-mod-pact-ae33d642e65f",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-b8bbad9a9ac4",
@@ -4822,11 +5656,32 @@
       "target": "code-mod-pact-49f078e2c789",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-bb0b3e019bab",
       "target": "code-mod-pact-b9a167a1b0af",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-bde0ac749c65",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-be371ed97dd7",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-bf68febb818b",
+      "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
       "weight": 0.6
@@ -4836,7 +5691,7 @@
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-c08e780b0988",
@@ -4850,42 +5705,63 @@
       "target": "code-mod-pact-97bc099e4351",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-c24e3c0a4cb9",
       "target": "code-mod-pact-aef5404e7b18",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-c340d6c50993",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-c7f61db09e0f",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-c852fe2a3d37",
       "target": "code-mod-pact-ab06f5642332",
       "type": "contains",
       "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-c92478e57342",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-c9482713a356",
+      "target": "code-mod-pact-fd2822799ad2",
+      "type": "contains",
+      "direction": "outbound",
       "weight": 0.6
+    },
+    {
+      "source": "code-sym-pact-ca90be898752",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-caece21eb0fa",
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-cb8f22db6f7c",
@@ -4899,7 +5775,7 @@
       "target": "code-mod-pact-8bb87064afa7",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-cfa831ce2871",
@@ -4913,14 +5789,21 @@
       "target": "code-mod-pact-b4ff502a3a2a",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-d1f35c1bb69a",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d37dc1b3b3d7",
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d4c9a9a54454",
@@ -4934,35 +5817,35 @@
       "target": "code-mod-pact-794dc5b1cccf",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d689783433c2",
       "target": "code-mod-pact-dd5070bdd389",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d6b8e739250f",
       "target": "code-mod-pact-be6cd8f062f0",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d7b3c772336a",
       "target": "code-mod-pact-ae33d642e65f",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-d8a1bb1f734a",
       "target": "code-mod-pact-c23fabd0f558",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-da5601047919",
@@ -4976,11 +5859,25 @@
       "target": "code-mod-pact-c23fabd0f558",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-de0b22a59022",
       "target": "code-mod-pact-260b565295f1",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-de54c8fff662",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-de8f6905aff8",
+      "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
       "weight": 0.6
@@ -4993,46 +5890,53 @@
       "weight": 0.6
     },
     {
+      "source": "code-sym-pact-dfcca6bab1e2",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
       "source": "code-sym-pact-e0459cb9e0e7",
       "target": "code-mod-pact-5921a8c819fc",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-e093c27db363",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-e348760ecf9a",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-e41d50b72e68",
       "target": "code-mod-pact-794dc5b1cccf",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-e78aeaeef4b8",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-e9d4a04de064",
       "target": "code-mod-pact-8c024db186c1",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-eaf15125dab2",
@@ -5046,7 +5950,7 @@
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-ed12d860bac8",
@@ -5060,31 +5964,38 @@
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-efa87c8eb3ef",
       "target": "code-mod-pact-aef5404e7b18",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f236d7c553ec",
       "target": "code-mod-pact-5921a8c819fc",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f23fa321e048",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f3cf7a2df38f",
+      "target": "code-mod-pact-a98508a4c2c3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.6
+    },
+    {
+      "source": "code-sym-pact-f4d5f7123208",
       "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
@@ -5095,11 +6006,25 @@
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f7faad21e118",
       "target": "code-mod-pact-fb6e7f10cd51",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-f802b76d3b8b",
+      "target": "code-mod-pact-66ddcd71dea3",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-f816368a850a",
+      "target": "code-mod-pact-a98508a4c2c3",
       "type": "contains",
       "direction": "outbound",
       "weight": 0.6
@@ -5109,21 +6034,21 @@
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f8dfc7afa6f9",
       "target": "code-mod-pact-b9a167a1b0af",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f9cea70e53e3",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-f9e26a71f864",
@@ -5133,35 +6058,50 @@
       "weight": 0.6
     },
     {
+      "source": "code-sym-pact-faa1ef0a0300",
+      "target": "code-mod-pact-320ca6af9d2e",
+      "type": "contains",
+      "direction": "outbound",
+      "weight": 0.01
+    },
+    {
       "source": "code-sym-pact-fb3e8cb06f6c",
       "target": "code-mod-pact-73dc8657bc5e",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-fc23bae11add",
       "target": "code-mod-pact-4a91d13d493e",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-fd2bcd8133f8",
       "target": "code-mod-pact-f6d2d8ca7847",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     },
     {
       "source": "code-sym-pact-feea0978b5db",
       "target": "code-mod-pact-fb6e7f10cd51",
       "type": "contains",
       "direction": "outbound",
-      "weight": 0.6
+      "weight": 0.01
     }
   ],
   "layers": [
+    {
+      "id": "api",
+      "name": "Api",
+      "description": "Kindex-inferred api layer.",
+      "nodeIds": [
+        "code-mod-pact-320ca6af9d2e"
+      ]
+    },
     {
       "id": "core",
       "name": "Core",
@@ -5187,7 +6127,9 @@
         "code-mod-pact-4a91d13d493e",
         "code-mod-pact-4f6b28611ac6",
         "code-mod-pact-5921a8c819fc",
+        "code-mod-pact-5a4ae69de2c4",
         "code-mod-pact-64aed5a5429a",
+        "code-mod-pact-66e2260b74dc",
         "code-mod-pact-6d8e62424eb9",
         "code-mod-pact-726caf113a1f",
         "code-mod-pact-7353584a3309",
@@ -5207,6 +6149,7 @@
         "code-mod-pact-8c024db186c1",
         "code-mod-pact-9678c8dad3b6",
         "code-mod-pact-97bc099e4351",
+        "code-mod-pact-99d0e990e6c0",
         "code-mod-pact-9fa5de810794",
         "code-mod-pact-a38b32f7916c",
         "code-mod-pact-a8704a67be93",
@@ -5223,6 +6166,7 @@
         "code-mod-pact-c624f6ed3998",
         "code-mod-pact-caa9e7a3f6c2",
         "code-mod-pact-cac3ecd752f9",
+        "code-mod-pact-cf360a502c2f",
         "code-mod-pact-d00b483362b2",
         "code-mod-pact-d1e8b0edf041",
         "code-mod-pact-d231cd5553be",
@@ -5234,9 +6178,11 @@
         "code-mod-pact-e0782a921375",
         "code-mod-pact-e2a7519a54e6",
         "code-mod-pact-e577f268671e",
+        "code-mod-pact-ecbc7c3cfbb3",
         "code-mod-pact-fa2c8961ce6c",
         "code-mod-pact-fa5d46850460",
-        "code-mod-pact-fb6e7f10cd51"
+        "code-mod-pact-fb6e7f10cd51",
+        "code-mod-pact-fd2822799ad2"
       ]
     },
     {
@@ -5244,6 +6190,7 @@
       "name": "Data",
       "description": "Kindex-inferred data layer.",
       "nodeIds": [
+        "code-mod-pact-66ddcd71dea3",
         "code-mod-pact-a98508a4c2c3",
         "code-mod-pact-ae33d642e65f",
         "code-mod-pact-b9a167a1b0af",
@@ -5259,8 +6206,11 @@
         "code-sym-pact-05eab30f0121",
         "code-sym-pact-084be8bdcb87",
         "code-sym-pact-08a7a2f07e78",
+        "code-sym-pact-0fd2b7fe54ff",
         "code-sym-pact-106eaf2b47ec",
         "code-sym-pact-140d3d2f24e7",
+        "code-sym-pact-1437b0b78d13",
+        "code-sym-pact-14ab4f915990",
         "code-sym-pact-14ef01b21740",
         "code-sym-pact-160bcf56df37",
         "code-sym-pact-17aa04e07cfa",
@@ -5277,8 +6227,10 @@
         "code-sym-pact-2b6cb0bcdfd0",
         "code-sym-pact-2e2685cb307b",
         "code-sym-pact-301c1100e0b5",
+        "code-sym-pact-30695b08faa6",
         "code-sym-pact-30882d54bf46",
         "code-sym-pact-33550f0136d3",
+        "code-sym-pact-3428b107a229",
         "code-sym-pact-350dee66beab",
         "code-sym-pact-3674630240e8",
         "code-sym-pact-388311a64c92",
@@ -5290,8 +6242,10 @@
         "code-sym-pact-3e04594863c6",
         "code-sym-pact-405eb134fe09",
         "code-sym-pact-40b40af3cab5",
+        "code-sym-pact-40d54e89c9cf",
         "code-sym-pact-4507c355079b",
         "code-sym-pact-4667e10062cf",
+        "code-sym-pact-4ad238097833",
         "code-sym-pact-4bba251dfee3",
         "code-sym-pact-4bfdb32872bc",
         "code-sym-pact-4d758eb8ff99",
@@ -5300,6 +6254,7 @@
         "code-sym-pact-5532f17920b6",
         "code-sym-pact-554100caca48",
         "code-sym-pact-5637233c31fc",
+        "code-sym-pact-593ef12e4eff",
         "code-sym-pact-5b23a235b6a6",
         "code-sym-pact-5b25c897c61c",
         "code-sym-pact-5b52dc010221",
@@ -5315,12 +6270,13 @@
         "code-sym-pact-6d90d4528416",
         "code-sym-pact-6e633b940a45",
         "code-sym-pact-6f9aa3952e5f",
-        "code-sym-pact-70324ecb42c5",
         "code-sym-pact-73dd1badbca1",
         "code-sym-pact-74a320f08c4c",
         "code-sym-pact-75eb4e3d7b30",
         "code-sym-pact-77d57f8fbe23",
         "code-sym-pact-7965a19ab611",
+        "code-sym-pact-7a04607f3dba",
+        "code-sym-pact-7a9434f30997",
         "code-sym-pact-7abd810622ad",
         "code-sym-pact-7b7369f76eba",
         "code-sym-pact-7c80bcda6b28",
@@ -5328,15 +6284,21 @@
         "code-sym-pact-7e351cd86925",
         "code-sym-pact-810a73198811",
         "code-sym-pact-824a6b39b446",
+        "code-sym-pact-83abe8516ab8",
         "code-sym-pact-8468906b161a",
         "code-sym-pact-872befd793c5",
+        "code-sym-pact-8751a8485cfe",
         "code-sym-pact-87d54dae2b0a",
         "code-sym-pact-87ed207c5ff7",
         "code-sym-pact-88fdd521a984",
         "code-sym-pact-8a80f763f15d",
+        "code-sym-pact-8f7003217ad3",
+        "code-sym-pact-9082d702c7c0",
+        "code-sym-pact-908c77047d9e",
         "code-sym-pact-90f696ef1a3c",
         "code-sym-pact-923f304dbfb1",
         "code-sym-pact-92a63b9567a1",
+        "code-sym-pact-92bf0d801eef",
         "code-sym-pact-937db436f675",
         "code-sym-pact-9677026b12d3",
         "code-sym-pact-978f435fff15",
@@ -5350,21 +6312,27 @@
         "code-sym-pact-9d0f3c0682f0",
         "code-sym-pact-a07aac6d960d",
         "code-sym-pact-a09958681ee8",
+        "code-sym-pact-a2281384a9dc",
         "code-sym-pact-a364e120b774",
         "code-sym-pact-a408b2322123",
         "code-sym-pact-a51989c158ce",
         "code-sym-pact-a68d3a4f8d26",
         "code-sym-pact-a6979af662b4",
+        "code-sym-pact-a892149525d3",
         "code-sym-pact-aaf475b7d168",
         "code-sym-pact-ab044f1b8a39",
         "code-sym-pact-aeef71a5bc26",
         "code-sym-pact-b1a05df1c9aa",
         "code-sym-pact-b3086722b876",
         "code-sym-pact-b36ed3b88917",
+        "code-sym-pact-b534acef38f3",
         "code-sym-pact-b8142a736db6",
         "code-sym-pact-b8bbad9a9ac4",
         "code-sym-pact-b9ab9975ad33",
         "code-sym-pact-bb0b3e019bab",
+        "code-sym-pact-bde0ac749c65",
+        "code-sym-pact-be371ed97dd7",
+        "code-sym-pact-bf68febb818b",
         "code-sym-pact-c040e54f3e5d",
         "code-sym-pact-c08e780b0988",
         "code-sym-pact-c22a932fe5d1",
@@ -5372,11 +6340,15 @@
         "code-sym-pact-c340d6c50993",
         "code-sym-pact-c7f61db09e0f",
         "code-sym-pact-c852fe2a3d37",
+        "code-sym-pact-c92478e57342",
+        "code-sym-pact-c9482713a356",
+        "code-sym-pact-ca90be898752",
         "code-sym-pact-caece21eb0fa",
         "code-sym-pact-cb8f22db6f7c",
         "code-sym-pact-ccda2a7f5233",
         "code-sym-pact-cfa831ce2871",
         "code-sym-pact-d13d1a2c172e",
+        "code-sym-pact-d1f35c1bb69a",
         "code-sym-pact-d37dc1b3b3d7",
         "code-sym-pact-d4c9a9a54454",
         "code-sym-pact-d61b338e90c2",
@@ -5387,7 +6359,10 @@
         "code-sym-pact-da5601047919",
         "code-sym-pact-dd4144f97572",
         "code-sym-pact-de0b22a59022",
+        "code-sym-pact-de54c8fff662",
+        "code-sym-pact-de8f6905aff8",
         "code-sym-pact-df9b164f0c11",
+        "code-sym-pact-dfcca6bab1e2",
         "code-sym-pact-e0459cb9e0e7",
         "code-sym-pact-e093c27db363",
         "code-sym-pact-e348760ecf9a",
@@ -5402,12 +6377,16 @@
         "code-sym-pact-f236d7c553ec",
         "code-sym-pact-f23fa321e048",
         "code-sym-pact-f3cf7a2df38f",
+        "code-sym-pact-f4d5f7123208",
         "code-sym-pact-f59ba2e3c34e",
         "code-sym-pact-f7faad21e118",
+        "code-sym-pact-f802b76d3b8b",
+        "code-sym-pact-f816368a850a",
         "code-sym-pact-f8c5d8d5a542",
         "code-sym-pact-f8dfc7afa6f9",
         "code-sym-pact-f9cea70e53e3",
         "code-sym-pact-f9e26a71f864",
+        "code-sym-pact-faa1ef0a0300",
         "code-sym-pact-fb3e8cb06f6c",
         "code-sym-pact-fc23bae11add",
         "code-sym-pact-fd2bcd8133f8",
@@ -5437,8 +6416,16 @@
   "tour": [
     {
       "order": 1,
+      "title": "Api",
+      "description": "Review 1 node(s) in the Api layer.",
+      "nodeIds": [
+        "code-mod-pact-320ca6af9d2e"
+      ]
+    },
+    {
+      "order": 2,
       "title": "Core",
-      "description": "Review 70 node(s) in the Core layer.",
+      "description": "Review 76 node(s) in the Core layer.",
       "nodeIds": [
         "code-mod-pact-00354a1f7047",
         "code-mod-pact-033d490ddbba",
@@ -5460,18 +6447,19 @@
         "code-mod-pact-4a91d13d493e",
         "code-mod-pact-4f6b28611ac6",
         "code-mod-pact-5921a8c819fc",
+        "code-mod-pact-5a4ae69de2c4",
         "code-mod-pact-64aed5a5429a",
+        "code-mod-pact-66e2260b74dc",
         "code-mod-pact-6d8e62424eb9",
-        "code-mod-pact-726caf113a1f",
-        "code-mod-pact-7353584a3309",
-        "code-mod-pact-739b45139017"
+        "code-mod-pact-726caf113a1f"
       ]
     },
     {
-      "order": 2,
+      "order": 3,
       "title": "Data",
-      "description": "Review 4 node(s) in the Data layer.",
+      "description": "Review 5 node(s) in the Data layer.",
       "nodeIds": [
+        "code-mod-pact-66ddcd71dea3",
         "code-mod-pact-a98508a4c2c3",
         "code-mod-pact-ae33d642e65f",
         "code-mod-pact-b9a167a1b0af",
@@ -5479,16 +6467,19 @@
       ]
     },
     {
-      "order": 3,
+      "order": 4,
       "title": "Domain",
-      "description": "Review 157 node(s) in the Domain layer.",
+      "description": "Review 189 node(s) in the Domain layer.",
       "nodeIds": [
         "code-sym-pact-0502e6fd4711",
         "code-sym-pact-05eab30f0121",
         "code-sym-pact-084be8bdcb87",
         "code-sym-pact-08a7a2f07e78",
+        "code-sym-pact-0fd2b7fe54ff",
         "code-sym-pact-106eaf2b47ec",
         "code-sym-pact-140d3d2f24e7",
+        "code-sym-pact-1437b0b78d13",
+        "code-sym-pact-14ab4f915990",
         "code-sym-pact-14ef01b21740",
         "code-sym-pact-160bcf56df37",
         "code-sym-pact-17aa04e07cfa",
@@ -5504,14 +6495,11 @@
         "code-sym-pact-28dcac128e35",
         "code-sym-pact-2b6cb0bcdfd0",
         "code-sym-pact-2e2685cb307b",
-        "code-sym-pact-301c1100e0b5",
-        "code-sym-pact-30882d54bf46",
-        "code-sym-pact-33550f0136d3",
-        "code-sym-pact-350dee66beab"
+        "code-sym-pact-301c1100e0b5"
       ]
     },
     {
-      "order": 4,
+      "order": 5,
       "title": "Test",
       "description": "Review 4 node(s) in the Test layer.",
       "nodeIds": [
@@ -5522,7 +6510,7 @@
       ]
     },
     {
-      "order": 5,
+      "order": 6,
       "title": "Ui",
       "description": "Review 1 node(s) in the Ui layer.",
       "nodeIds": [

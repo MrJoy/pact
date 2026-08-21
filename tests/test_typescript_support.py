@@ -9,6 +9,7 @@ import pytest
 from pact.codebase_analyzer import (
     _TS_SIDE_EFFECT_IMPORT_RE,
     _extract_ts_imports,
+    _resolve_relative_specifier,
     analyze_codebase,
     map_test_coverage,
     discover_source_files,
@@ -117,6 +118,24 @@ class TestTypeScriptImportExtraction:
         """)
         assert _extract_ts_imports(source) == ["./types.ts"]
 
+    def test_multiline_import_with_block_comment(self):
+        source = textwrap.dedent("""\
+            import {
+              /* runtime helper */
+              foo,
+            } from "./foo.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
+    def test_multiline_import_with_line_comment(self):
+        source = textwrap.dedent("""\
+            import {
+              foo, // retained for compatibility
+              bar,
+            } from "./foo.ts"
+        """)
+        assert _extract_ts_imports(source) == ["./foo.ts"]
+
     def test_default_and_namespace_imports(self):
         source = textwrap.dedent("""\
             import def from "./def.ts"
@@ -187,6 +206,18 @@ class TestTypeScriptImportExtraction:
             )
         """)
         assert _extract_ts_imports(source) == ["./wrapped.ts"]
+
+    def test_dynamic_import_with_options(self):
+        source = 'import("./data.json", { with: { type: "json" } })\n'
+        assert _extract_ts_imports(source) == ["./data.json"]
+
+    def test_concatenated_dynamic_import_is_skipped(self):
+        source = 'import("./locales/" + locale + ".ts")\n'
+        assert _extract_ts_imports(source) == []
+
+    def test_computed_string_dynamic_import_is_skipped(self):
+        source = 'import("./plugin.ts".trim())\n'
+        assert _extract_ts_imports(source) == []
 
     def test_dynamic_and_static_imports_are_returned_in_source_order(self):
         source = textwrap.dedent("""\
@@ -639,6 +670,13 @@ def _covered_names(analysis):
 
 
 class TestRelativeImportCoverage:
+    def test_windows_paths_are_resolved(self):
+        assert _resolve_relative_specifier(
+            r"src\app.test.ts",
+            "./app.ts",
+            {r"src\app.ts"},
+        ) == r"src\app.ts"
+
     def test_sibling_relative_import_marks_coverage(self, tmp_path):
         (tmp_path / "src").mkdir()
         (tmp_path / "src" / "app.ts").write_text("export function run(): void {}\n")
@@ -910,6 +948,28 @@ class TestTypeScriptComplexity:
             }
         """)
         assert _complexity_of(source, "check") == 2
+
+    def test_arrow_with_function_typed_parameter_uses_outer_body(self):
+        source = textwrap.dedent("""\
+            export const run = (callback: () => void): number => {
+              if (callback) {
+                return 1
+              }
+              return 0
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
+
+    def test_arrow_with_arrow_default_uses_outer_body(self):
+        source = textwrap.dedent("""\
+            export const run = (callback = () => true): number => {
+              if (callback()) {
+                return 1
+              }
+              return 0
+            }
+        """)
+        assert _complexity_of(source, "run") == 2
 
     def test_arrow_function_with_expression_body(self):
         source = 'export const check = (n: number): string => n > 0 ? "y" : "n"\n'

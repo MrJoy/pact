@@ -390,14 +390,14 @@ _TS_IMPORT_FROM_RE = re.compile(
 # Dynamic import: `import("spec")`, with or without `await`.
 #
 # The lookbehind rejects anything where `import` is only the tail of a longer
-# identifier (`notimport(...)`) or a member access (`loader.import(...)`), and
-# `\b` rejects the leading-substring case (`importAll(...)`).
+# identifier (`notimport(...)`) or a member access (`loader.import(...)`).
 #
 # Only quoted string literals are captured. A computed specifier such as
 # `import(`./${name}.ts`)` is not statically resolvable, so it is skipped rather
-# than recorded as a junk module path.
+# than recorded as a junk module path. After the closing quote, only a closing
+# parenthesis or an options comma is valid for a statically resolvable argument.
 _TS_DYNAMIC_IMPORT_RE = re.compile(
-    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]""",
+    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]\s*(?=[,)])""",
 )
 
 # Side-effect import: `import "spec"` — no clause, no `from`, evaluated purely
@@ -634,8 +634,8 @@ def _mask_ts_literals(source: str) -> str:
 
     Returns a string the same length as ``source`` in which the interior of
     every line comment, block comment, single/double-quoted string, and
-    template literal is replaced by spaces. Newlines are kept so line numbers
-    still line up, and delimiters are kept so bracket matching is unaffected.
+    template literal is replaced by spaces. Newlines and string delimiters are
+    kept so line numbers and bracket offsets still line up.
 
     Scanning the masked copy means keywords and operators appearing inside
     strings and comments cannot be mistaken for code.
@@ -679,6 +679,47 @@ def _mask_ts_literals(source: str) -> str:
     return "".join(out)
 
 
+def _mask_ts_comments(source: str) -> str:
+    """Blank comments without changing offsets or quoted module specifiers."""
+    out = list(source)
+    i, n = 0, len(source)
+
+    def blank(start: int, stop: int) -> None:
+        for k in range(start, min(stop, n)):
+            if out[k] != "\n":
+                out[k] = " "
+
+    while i < n:
+        char = source[i]
+        nxt = source[i + 1] if i + 1 < n else ""
+
+        if char in "'\"`":
+            quote = char
+            i += 1
+            while i < n:
+                if source[i] == "\\":
+                    i += 2
+                    continue
+                if source[i] == quote:
+                    i += 1
+                    break
+                i += 1
+        elif char == "/" and nxt == "/":
+            end = source.find("\n", i)
+            end = n if end < 0 else end
+            blank(i, end)
+            i = end
+        elif char == "/" and nxt == "*":
+            end = source.find("*/", i + 2)
+            end = n if end < 0 else end + 2
+            blank(i, end)
+            i = end
+        else:
+            i += 1
+
+    return "".join(out)
+
+
 def _match_bracket(masked: str, open_index: int) -> int:
     """Index of the bracket closing the one at ``open_index``, or -1."""
     open_char = masked[open_index]
@@ -694,6 +735,29 @@ def _match_bracket(masked: str, open_index: int) -> int:
             depth -= 1
             if depth == 0:
                 return j
+    return -1
+
+
+def _find_ts_outer_arrow(masked: str, start: int) -> int:
+    """Find an arrow token outside nested parameters, defaults, and types."""
+    closing_for = {"(": ")", "[": "]", "{": "}", "<": ">"}
+    stack: list[str] = []
+    end = min(start + 2000, len(masked))
+    i = start
+
+    while i < end:
+        char = masked[i]
+        if char == "=" and i + 1 < end and masked[i + 1] == ">":
+            if not stack:
+                return i
+            i += 2
+            continue
+        if char in closing_for:
+            stack.append(closing_for[char])
+        elif stack and char == stack[-1]:
+            stack.pop()
+        i += 1
+
     return -1
 
 
@@ -853,7 +917,7 @@ def extract_functions_typescript(
             # The body is whatever follows `=>`: either a block or a single
             # expression. Search the mask so a `=>` inside a default-parameter
             # string cannot be mistaken for the arrow.
-            arrow = masked.find("=>", eq_pos)
+            arrow = _find_ts_outer_arrow(masked, eq_pos + 1)
             if arrow >= 0:
                 after_arrow = arrow + 2
                 rest = masked[after_arrow:]
@@ -996,14 +1060,14 @@ def _extract_ts_imports(source: str) -> list[str]:
     """Extract imported module paths from TypeScript source.
 
     Covers static `import ... from "spec"`, dynamic `import("spec")`, and the
-    bare side-effect form `import "spec"`. Results come back in source order, so a reader of
-    `SourceFile.imports` sees the file's dependencies in the order they appear
-    whichever form each one takes.
+    bare side-effect form `import "spec"`. This remains a lexical heuristic,
+    not a complete TypeScript parser. Results come back in source order.
     """
+    uncommented = _mask_ts_comments(source)
     matches = [
-        *_TS_IMPORT_FROM_RE.finditer(source),
-        *_TS_DYNAMIC_IMPORT_RE.finditer(source),
-        *_TS_SIDE_EFFECT_IMPORT_RE.finditer(source),
+        *_TS_IMPORT_FROM_RE.finditer(uncommented),
+        *_TS_DYNAMIC_IMPORT_RE.finditer(uncommented),
+        *_TS_SIDE_EFFECT_IMPORT_RE.finditer(uncommented),
     ]
     matches.sort(key=lambda m: m.start())
     return [m.group(1) for m in matches]
@@ -1733,7 +1797,10 @@ def _resolve_relative_specifier(
     if not specifier.startswith("."):
         return None
 
-    base = posixpath.dirname(importer_path)
+    normalized_known_paths = {
+        path.replace("\\", "/"): path for path in known_paths
+    }
+    base = posixpath.dirname(importer_path.replace("\\", "/"))
     joined = posixpath.normpath(posixpath.join(base, specifier))
 
     # normpath leaves a leading ".." when the specifier climbs past the root.
@@ -1742,8 +1809,8 @@ def _resolve_relative_specifier(
 
     for suffix in _SPECIFIER_SUFFIXES:
         candidate = joined + suffix
-        if candidate in known_paths:
-            return candidate
+        if candidate in normalized_known_paths:
+            return normalized_known_paths[candidate]
 
     return None
 

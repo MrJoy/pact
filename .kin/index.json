@@ -4,7 +4,7 @@
     "python",
     "sh"
   ],
-  "node_count": 262,
+  "node_count": 277,
   "nodes": [
     {
       "domains": [
@@ -15,7 +15,7 @@
       "title": "src/pact/production.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -26,7 +26,7 @@
       "title": "src/pact/resolution.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -37,7 +37,7 @@
       "title": "src/pact/auditor.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -48,7 +48,7 @@
       "title": "src/pact/backends/gemini.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -58,8 +58,8 @@
       "id": "code-mod-pact-08ef6d349cf5",
       "title": "src/pact/__init__.py",
       "type": "artifact",
-      "updated_at": "2026-06-12T12:24:49",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -69,8 +69,8 @@
       "id": "code-mod-pact-1034df32b48c",
       "title": "src/pact/codebase_analyzer.py",
       "type": "artifact",
-      "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -81,7 +81,7 @@
       "title": "src/pact/interface_stub.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -92,7 +92,7 @@
       "title": "src/pact/test_harness.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -103,7 +103,7 @@
       "title": "src/pact/design_doc.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -114,7 +114,7 @@
       "title": "src/pact/backends/openai.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -125,7 +125,7 @@
       "title": "src/pact/schemas_shaping.py",
       "type": "artifact",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -136,7 +136,7 @@
       "title": "src/pact/vendor/simulacrum/runtime.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -147,7 +147,7 @@
       "title": "src/pact/events.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -158,7 +158,7 @@
       "title": "src/pact/adopt.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -169,7 +169,7 @@
       "title": "src/pact/retrospective.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -180,7 +180,7 @@
       "title": "src/pact/agents/trace_analyst.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -191,7 +191,7 @@
       "title": "src/pact/vendor/simulacrum/__init__.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -202,7 +202,7 @@
       "title": "src/pact/kindex_integration.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -213,7 +213,7 @@
       "title": "src/pact/ledger.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -224,7 +224,7 @@
       "title": "src/pact/backends/__init__.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -235,7 +235,7 @@
       "title": "src/pact/backends/claude_code.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -246,7 +246,7 @@
       "title": "src/pact/backends/anthropic.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -257,6 +257,17 @@
       "title": "src/pact/decomposer.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-mod-pact-5a4ae69de2c4",
+      "title": "src/pact/vendor/__init__.py",
+      "type": "artifact",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -268,7 +279,7 @@
       "title": "src/pact/analyzer.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -279,7 +290,7 @@
       "title": "src/pact/review.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -290,7 +301,7 @@
       "title": "src/pact/schemas_tasks.py",
       "type": "artifact",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -301,7 +312,7 @@
       "title": "src/pact/agents/base.py",
       "type": "artifact",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -312,7 +323,7 @@
       "title": "src/pact/human/context.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -323,7 +334,7 @@
       "title": "src/pact/sync.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -334,7 +345,7 @@
       "title": "src/pact/implementer.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -345,7 +356,7 @@
       "title": "src/pact/readiness.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -356,7 +367,7 @@
       "title": "src/pact/access_graph.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -367,7 +378,7 @@
       "title": "src/pact/daemon.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -378,7 +389,7 @@
       "title": "src/pact/backends/claude_code_team.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -389,7 +400,7 @@
       "title": "src/pact/human/slack.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -400,7 +411,7 @@
       "title": "src/pact/quality.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -411,7 +422,7 @@
       "title": "src/pact/human/git.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -422,7 +433,7 @@
       "title": "src/pact/agents/shaper.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -433,7 +444,7 @@
       "title": "src/pact/diagnoser.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -444,7 +455,7 @@
       "title": "src/pact/deploy.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -455,7 +466,7 @@
       "title": "src/pact/agents/code_author.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -466,7 +477,7 @@
       "title": "src/pact/checklist_gen.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -477,7 +488,7 @@
       "title": "src/pact/budget.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -488,7 +499,7 @@
       "title": "src/pact/standards.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -499,7 +510,7 @@
       "title": "src/pact/test_gen.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -510,7 +521,7 @@
       "title": "src/pact/agents/test_author.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -520,8 +531,8 @@
       "id": "code-mod-pact-9678c8dad3b6",
       "title": "src/pact/cli.py",
       "type": "artifact",
-      "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -532,6 +543,17 @@
       "title": "src/pact/arbiter.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-mod-pact-99d0e990e6c0",
+      "title": "src/pact/vendor/simulacrum/__main__.py",
+      "type": "artifact",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -543,7 +565,7 @@
       "title": "src/pact/constrain.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -554,7 +576,7 @@
       "title": "src/pact/agents/research.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -565,7 +587,7 @@
       "title": "monitor-pact.sh",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -575,8 +597,8 @@
       "id": "code-mod-pact-a98508a4c2c3",
       "title": "src/pact/schemas.py",
       "type": "artifact",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -587,7 +609,7 @@
       "title": "src/pact/mcp_server.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -598,7 +620,7 @@
       "title": "src/pact/schemas_assess.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -609,7 +631,7 @@
       "title": "src/pact/lifecycle.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -620,7 +642,7 @@
       "title": "src/pact/archive.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -631,7 +653,7 @@
       "title": "src/pact/backends/agent_runtime.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -642,7 +664,7 @@
       "title": "src/pact/ci.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -653,7 +675,7 @@
       "title": "src/pact/task_list.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -664,7 +686,7 @@
       "title": "src/pact/schemas_production.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:31",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -675,7 +697,7 @@
       "title": "src/pact/health.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -686,7 +708,7 @@
       "title": "src/pact/production_static.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -697,7 +719,7 @@
       "title": "src/pact/wavefront.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -708,7 +730,7 @@
       "title": "src/pact/project.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -719,7 +741,7 @@
       "title": "src/pact/assessor.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -730,7 +752,7 @@
       "title": "src/pact/production_validation.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:31",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -741,6 +763,17 @@
       "title": "src/pact/tool_index.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-mod-pact-cf360a502c2f",
+      "title": "src/pact/human/__init__.py",
+      "type": "artifact",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -752,7 +785,7 @@
       "title": "src/pact/contracts.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -763,7 +796,7 @@
       "title": "src/pact/pitch_utils.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -774,7 +807,7 @@
       "title": "src/pact/human/linear.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -785,7 +818,7 @@
       "title": "src/pact/agents/contract_author.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -795,8 +828,8 @@
       "id": "code-mod-pact-d7aaf24c1256",
       "title": "src/pact/certification.py",
       "type": "artifact",
-      "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -807,7 +840,7 @@
       "title": "src/pact/backends/codex_code.py",
       "type": "artifact",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -818,7 +851,7 @@
       "title": "src/pact/wizard.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -829,7 +862,7 @@
       "title": "src/pact/production_templates.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -840,7 +873,7 @@
       "title": "src/pact/scheduler.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:41:32",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -851,7 +884,7 @@
       "title": "src/pact/integrator.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -862,6 +895,17 @@
       "title": "src/pact/register.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-mod-pact-ecbc7c3cfbb3",
+      "title": "src/pact/agents/__init__.py",
+      "type": "artifact",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -873,7 +917,7 @@
       "title": "src/pact/schemas_testgen.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -884,7 +928,7 @@
       "title": "src/pact/research_cache.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:10",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -895,7 +939,7 @@
       "title": "src/pact/drift.py",
       "type": "artifact",
       "updated_at": "2026-05-24T15:01:09",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -906,7 +950,18 @@
       "title": "src/pact/config.py",
       "type": "artifact",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-mod-pact-fd2822799ad2",
+      "title": "src/pact/agent.py",
+      "type": "artifact",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -917,7 +972,7 @@
       "title": "SecurityAuditReport",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -928,7 +983,7 @@
       "title": "LiveValidationReport",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:26",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -939,7 +994,7 @@
       "title": "CoverageMap",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:46",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -950,7 +1005,7 @@
       "title": "ProjectManager",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -961,7 +1016,7 @@
       "title": "TaskStatus",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -972,7 +1027,7 @@
       "title": "BuildSpec",
       "type": "concept",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -982,8 +1037,19 @@
       "id": "code-sym-pact-140d3d2f24e7",
       "title": "FunctionContract",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-1437b0b78d13",
+      "title": "ResolvedPath",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -994,7 +1060,7 @@
       "title": "ShapingPitch",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1005,7 +1071,7 @@
       "title": "ProductionManifest",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:27",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1016,7 +1082,7 @@
       "title": "TestGenResult",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1027,7 +1093,7 @@
       "title": "TimeoutConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1038,7 +1104,7 @@
       "title": "PactEvent",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:54",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1049,7 +1115,7 @@
       "title": "ExtractedParameter",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1060,7 +1126,7 @@
       "title": "ProductionPreflight",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:27",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1071,7 +1137,7 @@
       "title": "GitManager",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:56",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1082,7 +1148,7 @@
       "title": "CallGraphEntry",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:45",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1093,7 +1159,7 @@
       "title": "PitchSummary",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:59",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1104,7 +1170,7 @@
       "title": "SlackNotifier",
       "type": "concept",
       "updated_at": "2026-05-24T15:01:03",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1114,8 +1180,8 @@
       "id": "code-sym-pact-265bc566ef0b",
       "title": "FieldSpec",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1126,7 +1192,7 @@
       "title": "ActivityTracker",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:35",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1136,8 +1202,8 @@
       "id": "code-sym-pact-28dcac128e35",
       "title": "EnvironmentCheck",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1148,7 +1214,7 @@
       "title": "ModuleMetrics",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1158,8 +1224,8 @@
       "id": "code-sym-pact-2e2685cb307b",
       "title": "DecompositionTree",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1170,7 +1236,18 @@
       "title": "Daemon",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:35",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-30695b08faa6",
+      "title": "OpenAIRequestPlan",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -1180,8 +1257,8 @@
       "id": "code-sym-pact-30882d54bf46",
       "title": "TestCase",
       "type": "concept",
-      "updated_at": "2026-06-12T12:21:29",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1192,7 +1269,7 @@
       "title": "FindingCategory",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0141
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1203,7 +1280,7 @@
       "title": "Place",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1214,7 +1291,7 @@
       "title": "ReadinessProfile",
       "type": "concept",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1224,8 +1301,8 @@
       "id": "code-sym-pact-3674630240e8",
       "title": "IOTrace",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1235,8 +1312,8 @@
       "id": "code-sym-pact-388311a64c92",
       "title": "ConstrainContext",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1247,7 +1324,7 @@
       "title": "CtagsSymbol",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1258,7 +1335,7 @@
       "title": "PreflightRule",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:26",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1268,8 +1345,8 @@
       "id": "code-sym-pact-3b3efd12aef7",
       "title": "SpecAuditResult",
       "type": "concept",
-      "updated_at": "2026-06-12T12:21:28",
-      "weight": 0.5
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1280,7 +1357,7 @@
       "title": "HealthReport",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1291,7 +1368,7 @@
       "title": "BuildSpecError",
       "type": "concept",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1301,8 +1378,8 @@
       "id": "code-sym-pact-3e04594863c6",
       "title": "ContractTestSuite",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1313,7 +1390,7 @@
       "title": "CoverageEntry",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:46",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1324,7 +1401,7 @@
       "title": "TestSubprocessError",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1335,7 +1412,7 @@
       "title": "ShapingStatus",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1346,7 +1423,7 @@
       "title": "ShapingLLMError",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:42",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1357,6 +1434,17 @@
       "title": "TestGenPlan",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:48",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-4ad238097833",
+      "title": "TypeSpec",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -1368,7 +1456,7 @@
       "title": "Shaper",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:42",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1379,7 +1467,7 @@
       "title": "ReadinessLevel",
       "type": "concept",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1390,7 +1478,7 @@
       "title": "NaRecord",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:26",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1401,7 +1489,7 @@
       "title": "NaRegister",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:26",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1412,7 +1500,7 @@
       "title": "ReadinessDimension",
       "type": "concept",
       "updated_at": "2026-06-12T13:45:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1422,8 +1510,8 @@
       "id": "code-sym-pact-5532f17920b6",
       "title": "QuestionType",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1434,7 +1522,7 @@
       "title": "ComponentState",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:44",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1445,6 +1533,17 @@
       "title": "SecurityFinding",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:47",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-593ef12e4eff",
+      "title": "TypeRegistry",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
       "weight": 0.5
     },
     {
@@ -1456,7 +1555,7 @@
       "title": "ArtifactBaseline",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:37",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1466,8 +1565,8 @@
       "id": "code-sym-pact-5b25c897c61c",
       "title": "InterviewQuestion",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1478,7 +1577,7 @@
       "title": "Scheduler",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:30",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1488,8 +1587,8 @@
       "id": "code-sym-pact-5b54917dea87",
       "title": "ArtifactMetadata",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1499,8 +1598,8 @@
       "id": "code-sym-pact-5d18a698a903",
       "title": "ComponentTask",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1511,7 +1610,7 @@
       "title": "EventBus",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:53",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1522,7 +1621,7 @@
       "title": "IntegrationContext",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:54",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1533,7 +1632,7 @@
       "title": "HealthCondition",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1543,8 +1642,8 @@
       "id": "code-sym-pact-6746962f7365",
       "title": "InterviewResult",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1555,7 +1654,7 @@
       "title": "ThreatModel",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:28",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1566,7 +1665,7 @@
       "title": "GlobalConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1577,7 +1676,7 @@
       "title": "FindingSeverity",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0141
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1588,7 +1687,7 @@
       "title": "ProductionFinding",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:26",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1599,7 +1698,7 @@
       "title": "TestGenPlanEntry",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1610,7 +1709,7 @@
       "title": "ScoredAttempt",
       "type": "concept",
       "updated_at": "2026-05-24T15:01:03",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1620,8 +1719,8 @@
       "id": "code-sym-pact-70324ecb42c5",
       "title": "ArchitectureLaw",
       "type": "concept",
-      "updated_at": "2026-06-12T13:41:25",
-      "weight": 0.5
+      "updated_at": "2026-06-12T19:14:57",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1632,7 +1731,7 @@
       "title": "author_code.CodeResponse",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1642,8 +1741,8 @@
       "id": "code-sym-pact-74a320f08c4c",
       "title": "PerformanceBudget",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1653,8 +1752,8 @@
       "id": "code-sym-pact-75eb4e3d7b30",
       "title": "PlanEvaluation",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1664,8 +1763,8 @@
       "id": "code-sym-pact-77d57f8fbe23",
       "title": "FailureRecord",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1676,7 +1775,7 @@
       "title": "BudgetTracker",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:41",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1687,7 +1786,7 @@
       "title": "Affordance",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1698,7 +1797,7 @@
       "title": "AgentBase",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1709,7 +1808,7 @@
       "title": "ExternalContext",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:54",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1720,7 +1819,7 @@
       "title": "CodebaseAnalysis",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:46",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1731,7 +1830,7 @@
       "title": "StaticCheckResult",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:27",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1742,7 +1841,7 @@
       "title": "integrate_component.GlueResponse",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:55",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1753,7 +1852,7 @@
       "title": "StalenessCheck",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:37",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1764,7 +1863,7 @@
       "title": "AgentTask",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1775,7 +1874,7 @@
       "title": "AnthropicBackend",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:36",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1786,7 +1885,7 @@
       "title": "RabbitHoleStatus",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1797,7 +1896,7 @@
       "title": "GeminiBackend",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:56",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1808,7 +1907,7 @@
       "title": "AssessmentCategory",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:37",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1819,7 +1918,7 @@
       "title": "ChecklistCategory",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1830,7 +1929,7 @@
       "title": "ImpatienceLevel",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1841,7 +1940,7 @@
       "title": "RunRetrospective",
       "type": "concept",
       "updated_at": "2026-05-24T15:01:00",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1852,7 +1951,7 @@
       "title": "AdoptionResult",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:35",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1863,7 +1962,7 @@
       "title": "ImplementationResult",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1874,7 +1973,18 @@
       "title": "AnalysisReport",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-9082d702c7c0",
+      "title": "AgentResult",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -1885,7 +1995,7 @@
       "title": "TaskPhase",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1896,7 +2006,7 @@
       "title": "SystemicPattern",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:30",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1906,8 +2016,8 @@
       "id": "code-sym-pact-923f304dbfb1",
       "title": "RequirementCoverage",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1918,7 +2028,7 @@
       "title": "ToolIndex",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1929,7 +2039,7 @@
       "title": "PhaseCheckpoint",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1939,8 +2049,8 @@
       "id": "code-sym-pact-937db436f675",
       "title": "AuditedAnswer",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1951,7 +2061,7 @@
       "title": "ParallelConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1962,7 +2072,7 @@
       "title": "Remedy",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1973,7 +2083,7 @@
       "title": "ArtifactReadError",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:29",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1983,8 +2093,8 @@
       "id": "code-sym-pact-9899ce68ac02",
       "title": "ErrorCase",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -1995,7 +2105,7 @@
       "title": "CodexCodeBackend",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2006,7 +2116,7 @@
       "title": "TreeSitterSymbol",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:50",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2016,8 +2126,8 @@
       "id": "code-sym-pact-9c9a8b4a2bf8",
       "title": "CertificationArtifact",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2027,8 +2137,8 @@
       "id": "code-sym-pact-9cd1540d754d",
       "title": "DataAccessSideEffect",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2039,7 +2149,7 @@
       "title": "HealthMetrics",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2049,8 +2159,8 @@
       "id": "code-sym-pact-9d0f3c0682f0",
       "title": "SideEffectKind",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2060,8 +2170,8 @@
       "id": "code-sym-pact-a07aac6d960d",
       "title": "DataAccessDeclaration",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2072,7 +2182,7 @@
       "title": "OpenAIBackend",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:58",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2083,7 +2193,7 @@
       "title": "FitCheck",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2094,7 +2204,7 @@
       "title": "BudgetExceededError",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:42",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2104,8 +2214,8 @@
       "id": "code-sym-pact-a408b2322123",
       "title": "DecompositionNode",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2115,8 +2225,8 @@
       "id": "code-sym-pact-a51989c158ce",
       "title": "AuthorityDeclaration",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2126,8 +2236,8 @@
       "id": "code-sym-pact-a68d3a4f8d26",
       "title": "AnswerSource",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2138,7 +2248,7 @@
       "title": "ProductionValidationReport",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:27",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2149,7 +2259,7 @@
       "title": "TaskItem",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2159,8 +2269,8 @@
       "id": "code-sym-pact-aaf475b7d168",
       "title": "PreflightPlan",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2171,7 +2281,7 @@
       "title": "ControlEntry",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:25",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2182,7 +2292,7 @@
       "title": "LinearClient",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:57",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2193,7 +2303,7 @@
       "title": "BudgetExceeded",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:41",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2204,7 +2314,7 @@
       "title": "CscopeRef",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:46",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2215,7 +2325,7 @@
       "title": "ControlMatrix",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:25",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2226,7 +2336,7 @@
       "title": "RegionMap",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2237,7 +2347,7 @@
       "title": "AssessmentFinding",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2247,8 +2357,8 @@
       "id": "code-sym-pact-b8bbad9a9ac4",
       "title": "SideEffect",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2259,7 +2369,7 @@
       "title": "Backend",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:40",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2270,7 +2380,7 @@
       "title": "ThreatEntry",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:28",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2281,7 +2391,7 @@
       "title": "Appetite",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2292,7 +2402,18 @@
       "title": "Breadboard",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-bf68febb818b",
+      "title": "TestFailure",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -2303,7 +2424,7 @@
       "title": "HealthFinding",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2313,8 +2434,8 @@
       "id": "code-sym-pact-c08e780b0988",
       "title": "EngineeringDecision",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2325,7 +2446,7 @@
       "title": "ArbiterResponse",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:36",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2336,7 +2457,7 @@
       "title": "ErrorClassification",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:53",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2346,8 +2467,8 @@
       "id": "code-sym-pact-c340d6c50993",
       "title": "ArchitectureLaws",
       "type": "concept",
-      "updated_at": "2026-06-12T13:41:25",
-      "weight": 0.5
+      "updated_at": "2026-06-12T19:14:57",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2358,7 +2479,7 @@
       "title": "ToolAvailability",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:49",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2369,7 +2490,7 @@
       "title": "PactMCPServer",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:59",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2380,7 +2501,18 @@
       "title": "AnalysisFinding",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-c9482713a356",
+      "title": "ContextFile",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -2391,7 +2523,7 @@
       "title": "RequirementsChecklist",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2402,7 +2534,7 @@
       "title": "HealthStatus",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2412,8 +2544,8 @@
       "id": "code-sym-pact-cb8f22db6f7c",
       "title": "ComponentContract",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2424,7 +2556,7 @@
       "title": "PhaseBudget",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:41",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2434,8 +2566,8 @@
       "id": "code-sym-pact-cfa831ce2871",
       "title": "RunState",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2446,7 +2578,7 @@
       "title": "AgentRuntimeSpec",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2457,7 +2589,7 @@
       "title": "TaskCategory",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2468,7 +2600,7 @@
       "title": "PhaseTokens",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2478,8 +2610,8 @@
       "id": "code-sym-pact-d4c9a9a54454",
       "title": "ResearchFinding",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2490,7 +2622,7 @@
       "title": "AgentResult",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2501,7 +2633,7 @@
       "title": "WizardConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:30",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2512,7 +2644,7 @@
       "title": "HealthPolicyDecision",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2523,7 +2655,7 @@
       "title": "AssessmentReport",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:38",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2534,7 +2666,7 @@
       "title": "ComponentPhase",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:44",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2544,8 +2676,8 @@
       "id": "code-sym-pact-da5601047919",
       "title": "ResearchReport",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2556,7 +2688,7 @@
       "title": "WavefrontScheduler",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:45",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2567,7 +2699,7 @@
       "title": "EvalTier",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2578,7 +2710,18 @@
       "title": "TaskList",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-de8f6905aff8",
+      "title": "TraceDiagnosis",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -2588,8 +2731,8 @@
       "id": "code-sym-pact-df9b164f0c11",
       "title": "LearningEntry",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2600,7 +2743,7 @@
       "title": "Connection",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2611,7 +2754,7 @@
       "title": "DecompositionResult",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:30",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2622,7 +2765,7 @@
       "title": "ExtractedFunction",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:47",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2633,7 +2776,7 @@
       "title": "ProductionGate",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:27",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2644,7 +2787,7 @@
       "title": "ClaudeCodeTeamBackend",
       "type": "concept",
       "updated_at": "2026-06-12T12:24:47",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2655,7 +2798,7 @@
       "title": "ModelTierConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2666,7 +2809,7 @@
       "title": "GlobalStandards",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:57",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2676,8 +2819,8 @@
       "id": "code-sym-pact-eaf15125dab2",
       "title": "GateResult",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2688,7 +2831,7 @@
       "title": "GateItem",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:25",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2698,8 +2841,8 @@
       "id": "code-sym-pact-ed12d860bac8",
       "title": "RedLine",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2710,7 +2853,7 @@
       "title": "ProjectConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2721,7 +2864,7 @@
       "title": "ResumeStrategy",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:53",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2732,7 +2875,7 @@
       "title": "run_decomposition.DecomposeResponse",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:30",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2743,7 +2886,7 @@
       "title": "SecurityRiskLevel",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2753,8 +2896,19 @@
       "id": "code-sym-pact-f3cf7a2df38f",
       "title": "DesignDocument",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-f4d5f7123208",
+      "title": "ValidatorSpec",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -2765,7 +2919,7 @@
       "title": "SourceFile",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2776,7 +2930,7 @@
       "title": "ResolvedConfig",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2787,7 +2941,18 @@
       "title": "ChecklistItem",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
+    },
+    {
+      "domains": [
+        "code",
+        "python"
+      ],
+      "id": "code-sym-pact-f816368a850a",
+      "title": "TestResults",
+      "type": "concept",
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.5
     },
     {
       "domains": [
@@ -2798,7 +2963,7 @@
       "title": "TrustPolicy",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:28",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2809,7 +2974,7 @@
       "title": "TrustAssertion",
       "type": "concept",
       "updated_at": "2026-06-12T13:41:28",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2820,7 +2985,7 @@
       "title": "EnvironmentSpec",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2830,8 +2995,8 @@
       "id": "code-sym-pact-f9e26a71f864",
       "title": "Contingency",
       "type": "concept",
-      "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "updated_at": "2026-08-20T19:27:43",
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2842,7 +3007,7 @@
       "title": "RabbitHole",
       "type": "concept",
       "updated_at": "2026-03-27T22:16:51",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2853,7 +3018,7 @@
       "title": "Directive",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:35",
-      "weight": 0.0109
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2864,7 +3029,7 @@
       "title": "ClaudeCodeBackend",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:50",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2875,7 +3040,7 @@
       "title": "TestFile",
       "type": "concept",
       "updated_at": "2026-05-24T15:00:48",
-      "weight": 0.5
+      "weight": 0.01
     },
     {
       "domains": [
@@ -2886,10 +3051,9 @@
       "title": "BuildMode",
       "type": "concept",
       "updated_at": "2026-06-12T13:34:41",
-      "weight": 0.0109
+      "weight": 0.01
     }
   ],
   "repo": "pact",
-  "source_updated_at": "2026-06-12T13:45:38",
   "version": 1
 }
