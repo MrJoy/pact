@@ -752,7 +752,7 @@ class TestRelativeImportCoverage:
         assert _resolve_relative_specifier(
             r"src\app.test.ts",
             "./app.ts",
-            {r"src\app.ts"},
+            {"src/app.ts": r"src\app.ts"},
         ) == r"src\app.ts"
 
     def test_sibling_relative_import_marks_coverage(self, tmp_path):
@@ -850,6 +850,79 @@ class TestRelativeImportCoverage:
         test = TestFile(path="tests/test_auth.py", language="python")
         test.imported_modules = ["pkg.auth"]
         test.referenced_names = ["login"]
+
+        cov = map_test_coverage([source], [test])
+        assert [e.covered for e in cov.entries] == [True]
+
+    def test_windows_separators_in_paths_still_resolve(self):
+        """`discover_source_files` builds paths with `os.sep`, so on Windows a
+        project-relative path arrives here with backslashes. The specifier in
+        the source is always POSIX, so the two have to be reconciled."""
+        source = SourceFile(path="src\\app.ts", language="typescript")
+        source.functions = [
+            ExtractedFunction(name="run", signature="run()", line_number=1)
+        ]
+        test = TestFile(path="src\\app.test.ts", language="typescript")
+        test.imported_modules = ["./app.ts"]
+        test.referenced_names = ["run"]
+
+        cov = map_test_coverage([source], [test])
+        assert [e.covered for e in cov.entries] == [True]
+
+    def test_windows_separators_resolve_a_parent_specifier(self):
+        source = SourceFile(path="src\\handler.ts", language="typescript")
+        source.functions = [
+            ExtractedFunction(name="handle", signature="handle()", line_number=1)
+        ]
+        test = TestFile(
+            path="src\\__tests__\\handler.test.ts", language="typescript"
+        )
+        test.imported_modules = ["../handler.ts"]
+        test.referenced_names = ["handle"]
+
+        cov = map_test_coverage([source], [test])
+        assert [e.covered for e in cov.entries] == [True]
+
+    def test_windows_separators_do_not_escape_the_project_root(self):
+        source = SourceFile(path="src\\app.ts", language="typescript")
+        source.functions = [
+            ExtractedFunction(name="run", signature="run()", line_number=1)
+        ]
+        test = TestFile(path="src\\app.test.ts", language="typescript")
+        test.imported_modules = ["../../../../etc/app.ts"]
+        test.referenced_names = ["run"]
+
+        cov = map_test_coverage([source], [test])
+        assert [e.covered for e in cov.entries] == [False]
+
+    def test_resolution_returns_the_path_as_the_project_recorded_it(self):
+        """Reconciling separators must not invent a path the project never had.
+
+        The resolved value feeds `_module_name`, and a source file keyed under
+        one spelling cannot be matched by another.
+        """
+        from pact.codebase_analyzer import _resolve_relative_specifier
+
+        assert _resolve_relative_specifier(
+            "src\\app.test.ts", "./app.ts", {"src/app.ts": "src\\app.ts"}
+        ) == "src\\app.ts"
+
+    def test_leading_dots_in_a_filename_are_not_a_parent_escape(self):
+        """`..rc.ts` starts with two dots but climbs nowhere."""
+        from pact.codebase_analyzer import _resolve_relative_specifier
+
+        assert _resolve_relative_specifier(
+            "app.test.ts", "./..rc.ts", {"..rc.ts": "..rc.ts"}
+        ) == "..rc.ts"
+
+    def test_posix_separators_are_unaffected(self):
+        source = SourceFile(path="src/app.ts", language="typescript")
+        source.functions = [
+            ExtractedFunction(name="run", signature="run()", line_number=1)
+        ]
+        test = TestFile(path="src/app.test.ts", language="typescript")
+        test.imported_modules = ["./app.ts"]
+        test.referenced_names = ["run"]
 
         cov = map_test_coverage([source], [test])
         assert [e.covered for e in cov.entries] == [True]
