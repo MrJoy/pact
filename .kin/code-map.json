@@ -8,8 +8,8 @@
       "Sh"
     ],
     "frameworks": [],
-    "analyzedAt": "2026-08-20T19:25:11-05:00",
-    "gitCommitHash": "af10b8ee821c834b4105dba9f992734c23d30241"
+    "analyzedAt": "2026-08-20T19:37:56-05:00",
+    "gitCommitHash": "dfee8b455d56ae37ce4f56a4ff93d7bdeb851910"
   },
   "nodes": [
     {
@@ -969,12 +969,12 @@
       "type": "file",
       "name": "src/pact/codebase_analyzer.py",
       "filePath": "src/pact/codebase_analyzer.py",
-      "summary": "Language: Python | Path: src/pact/codebase_analyzer.py | ~2153 lines ## Functions - analyze_codebase( root: str | Path, language: str = \"python\", *, include: list[str] | None = None, exclude: list[str] | None = None, ) -> CodebaseAnalysis",
+      "summary": "Language: Python | Path: src/pact/codebase_analyzer.py | ~2255 lines ## Functions - analyze_codebase( root: str | Path, language: str = \"python\", *, include: list[str] | None = None, exclude: list[str] | None = None, ) -> CodebaseAnalysis",
       "tags": [
         "code",
         "python"
       ],
-      "complexity": 47,
+      "complexity": 49,
       "languageNotes": {
         "language": "Python",
         "kindexType": "artifact",
@@ -4721,6 +4721,20 @@
       "weight": 0.5
     },
     {
+      "source": "code-mod-pact-5a4ae69de2c4",
+      "target": "code-mod-pact-cf360a502c2f",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.32
+    },
+    {
+      "source": "code-mod-pact-5a4ae69de2c4",
+      "target": "code-mod-pact-ecbc7c3cfbb3",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.32
+    },
+    {
       "source": "code-mod-pact-7353584a3309",
       "target": "code-mod-pact-b4ff502a3a2a",
       "type": "depends_on",
@@ -4761,6 +4775,34 @@
       "type": "contains",
       "direction": "outbound",
       "weight": 0.01
+    },
+    {
+      "source": "code-mod-pact-cf360a502c2f",
+      "target": "code-mod-pact-5a4ae69de2c4",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.4
+    },
+    {
+      "source": "code-mod-pact-cf360a502c2f",
+      "target": "code-mod-pact-ecbc7c3cfbb3",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.32
+    },
+    {
+      "source": "code-mod-pact-ecbc7c3cfbb3",
+      "target": "code-mod-pact-5a4ae69de2c4",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.4
+    },
+    {
+      "source": "code-mod-pact-ecbc7c3cfbb3",
+      "target": "code-mod-pact-cf360a502c2f",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.4
     },
     {
       "source": "code-mod-pact-fd2822799ad2",
@@ -5414,6 +5456,13 @@
       "weight": 0.6
     },
     {
+      "source": "code-sym-pact-9082d702c7c0",
+      "target": "code-sym-pact-d61b338e90c2",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.4
+    },
+    {
       "source": "code-sym-pact-908c77047d9e",
       "target": "code-mod-pact-66ddcd71dea3",
       "type": "contains",
@@ -5818,6 +5867,13 @@
       "type": "contains",
       "direction": "outbound",
       "weight": 0.01
+    },
+    {
+      "source": "code-sym-pact-d61b338e90c2",
+      "target": "code-sym-pact-9082d702c7c0",
+      "type": "related",
+      "direction": "outbound",
+      "weight": 0.32
     },
     {
       "source": "code-sym-pact-d689783433c2",

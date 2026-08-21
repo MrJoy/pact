@@ -407,12 +407,14 @@ _TS_IMPORT_FROM_RE = re.compile(
 # The lookbehind rejects anything where `import` is only the tail of a longer
 # identifier (`notimport(...)`) or a member access (`loader.import(...)`).
 #
-# Only quoted string literals are captured. A computed specifier such as
-# `import(`./${name}.ts`)` is not statically resolvable, so it is skipped rather
-# than recorded as a junk module path. After the closing quote, only a closing
-# parenthesis or an options comma is valid for a statically resolvable argument.
+# Only a whole quoted string literal is captured, and the trailing `[,)]`
+# is what makes it whole. A computed specifier is not statically resolvable, so
+# it is skipped rather than recorded as a junk module path -- whether it is a
+# template literal (`import(`./${name}.ts`)`), a concatenation
+# (`import("./pms/" + name)`), or a call on a literal (`import("./x".trim())`).
+# The comma admits the import-attributes form, `import("./x.json", { with: ... })`.
 _TS_DYNAMIC_IMPORT_RE = re.compile(
-    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]\s*(?=[,)])""",
+    r"""(?<![\w$.])import\s*\(\s*['"]([^'"]+)['"]\s*[,)]""",
 )
 
 # Side-effect import: `import "spec"` — no clause, no `from`, evaluated purely
