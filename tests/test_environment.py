@@ -91,3 +91,18 @@ class TestResolveEnvironment:
         pc = ProjectConfig(environment={"python_path": "python3.13"})
         spec = resolve_environment(pc, gc)
         assert spec.python_path == "python3.13"
+
+
+class TestProjectTestEnvironment:
+    def test_reads_python_path_from_pact_yaml(self, tmp_path):
+        from pact.project import ProjectManager
+        project = ProjectManager(tmp_path)
+        project.config_path.write_text(
+            "environment:\n  python_path: /opt/venv/bin/python\n"
+        )
+        assert project.test_environment().python_path == "/opt/venv/bin/python"
+
+    def test_defaults_to_running_interpreter(self, tmp_path):
+        from pact.project import ProjectManager
+        project = ProjectManager(tmp_path)
+        assert project.test_environment().python_path == sys.executable
