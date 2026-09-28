@@ -30,6 +30,8 @@ DEFAULT_MODEL_PRICING: dict[str, tuple[float, float]] = {
     "claude-opus-4-1": (15.00, 75.00),
     "claude-opus-4-5": (5.00, 25.00),
     "claude-opus-4-6": (5.00, 25.00),
+    "claude-opus-4-8": (5.00, 25.00),
+    "claude-opus-5": (5.00, 25.00),
     "claude-opus-5-5": (4.00, 20.00),
     # OpenAI
     "gpt-4o": (2.50, 10.00),
