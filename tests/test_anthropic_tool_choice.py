@@ -7,6 +7,7 @@ instruction and retries when a response comes back without a tool call.
 
 from __future__ import annotations
 
+import asyncio
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock
 
@@ -151,6 +152,38 @@ class TestForcedToolChoiceFallback:
         with pytest.raises(anthropic.BadRequestError):
             await backend.assess(SimpleSchema, "prompt", "system")
         assert backend._forced_tool_choice is True
+
+    async def test_concurrent_forced_rejections_both_fall_back(self):
+        # Both requests go out forced. The first 400 flips the instance to
+        # auto before the second 400 lands; the second must still retry.
+        backend = _make_backend()
+        both_sent = asyncio.Event()
+        forced_sent = 0
+
+        class _RejectingStream(_FakeStream):
+            async def __aenter__(self):
+                nonlocal forced_sent
+                forced_sent += 1
+                if forced_sent == 2:
+                    both_sent.set()
+                await both_sent.wait()
+                raise _TOOL_CHOICE_400
+
+        def stream(**kwargs):
+            if kwargs["tool_choice"]["type"] == "tool":
+                return _RejectingStream(None)
+            return _FakeStream(_tool_message("SimpleSchema", {"name": "a", "value": 1}))
+
+        backend._client.messages.stream = MagicMock(side_effect=stream)
+
+        results = await asyncio.gather(
+            backend.assess(SimpleSchema, "prompt", "system"),
+            backend.assess(SimpleSchema, "prompt", "system"),
+        )
+
+        assert [r.value for r, _, _ in results] == [1, 1]
+        assert forced_sent == 2
+        assert backend._forced_tool_choice is False
 
 
 class TestMissedToolCall:

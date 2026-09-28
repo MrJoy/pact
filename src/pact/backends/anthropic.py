@@ -345,8 +345,11 @@ class AnthropicBackend:
             "description": tool_description,
             "input_schema": tool_schema,
         }
+        # Request-local: a concurrent request may flip the instance flag
+        # while this one is in flight.
+        forced = self._forced_tool_choice
         while True:
-            if self._forced_tool_choice:
+            if forced:
                 request_system = system
                 tool_choice = {"type": "tool", "name": tool_name}
             else:
@@ -377,16 +380,15 @@ class AnthropicBackend:
 
                 return await stream.get_final_message()
             except anthropic.BadRequestError as exc:
-                if (
-                    not self._forced_tool_choice
-                    or _TOOL_CHOICE_UNSUPPORTED_MARKER not in str(exc)
-                ):
+                if not forced or _TOOL_CHOICE_UNSUPPORTED_MARKER not in str(exc):
                     raise
-                logger.info(
-                    "%s rejected forced tool_choice; using tool_choice auto",
-                    self._model,
-                )
+                if self._forced_tool_choice:
+                    logger.info(
+                        "%s rejected forced tool_choice; using tool_choice auto",
+                        self._model,
+                    )
                 self._forced_tool_choice = False
+                forced = False
 
     # ── Prompt caching helpers ──────────────────────────────────────────
 
