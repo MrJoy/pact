@@ -15,6 +15,11 @@ class TestPricingForModel:
         assert inp == 5.00
         assert out == 25.00
 
+    def test_opus_5_5(self):
+        inp, out = pricing_for_model("claude-opus-5-5")
+        assert inp == 4.00
+        assert out == 20.00
+
     def test_haiku(self):
         inp, out = pricing_for_model("claude-haiku-4-5-20251001")
         assert inp == 1.00
