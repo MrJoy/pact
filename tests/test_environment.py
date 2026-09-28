@@ -1,5 +1,6 @@
 """Tests for EnvironmentSpec."""
 import os
+import sys
 from pact.config import EnvironmentSpec, resolve_environment, GlobalConfig, ProjectConfig
 
 
@@ -7,7 +8,7 @@ class TestEnvironmentSpec:
     def test_default_inherits_path(self):
         spec = EnvironmentSpec()
         assert spec.inherit_path is True
-        assert spec.python_path == "python3"
+        assert spec.python_path == sys.executable
         assert spec.required_tools == ["pytest"]
 
     def test_build_env_inherits_parent_path(self):
@@ -69,7 +70,12 @@ class TestResolveEnvironment:
     def test_default_when_no_config(self):
         spec = resolve_environment(ProjectConfig(), GlobalConfig())
         assert spec.inherit_path is True
-        assert spec.python_path == "python3"
+        assert spec.python_path == sys.executable
+
+    def test_config_without_python_path_uses_running_interpreter(self):
+        gc = GlobalConfig(environment={"inherit_path": False})
+        spec = resolve_environment(ProjectConfig(), gc)
+        assert spec.python_path == sys.executable
 
     def test_global_config(self):
         gc = GlobalConfig(environment={
